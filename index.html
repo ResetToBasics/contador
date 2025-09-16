@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hero – Contabilidade Especializada</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#1a1528;
+      --muted:#5b556b;
+      --orange:#0077ff;
+      --orange-600:#f35b00;
+      --purple:#000000;
+      --purple-700:#5a22b3;
+      --card:#ffffff;
+      --shadow: 0 10px 30px rgba(18, 16, 28, .12);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    .container{max-width:1200px;margin:0 auto;padding:32px 20px 56px}
+
+    .hero{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:28px;
+      align-items:center;
+      background:white;
+      border-radius:28px;
+      padding:48px 40px;
+      margin-bottom:24px;
+      position:relative;
+      overflow:hidden;
+      min-height:520px;
+      color:#333;
+    }
+    @media (max-width: 980px){.hero{grid-template-columns:1fr;gap:24px;padding:32px 24px}}
+
+    .hero-content{position:relative;z-index:2}
+    .hero .eyebrow{color:#5b21b6}
+    .hero .subtitle{color:#64748b}
+
+    .hero-image{
+      position:relative;
+      height:520px;
+      border-radius:20px;
+      overflow:hidden;
+      background:
+        url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+    }
+    @media (max-width: 980px){.hero-image{height:360px}}
+
+    .hero .badge{
+      position:absolute;
+      left:20px;
+      bottom:20px;
+      background:#ffffffcc;
+      backdrop-filter:blur(6px);
+      border-radius:14px;
+      padding:10px 14px;
+      font-weight:700;
+      font-size:13px;
+      box-shadow:var(--shadow);
+      z-index:3;
+    }
+
+    .eyebrow{
+      font-weight:800;letter-spacing:.4px;font-size:20px;margin:0 0 8px;color:#5b21b6
+    }
+
+    .title{font-weight:900;line-height:1.05;font-size: clamp(36px, 4.3vw, 60px);margin:0 0 12px}
+    .title .orange{color:var(--orange)}
+    .title .purple{color:var(--purple)}
+
+    .subtitle{font-size:18px;line-height:1.65;color:var(--muted);margin:0 0 28px}
+
+    .cta-row{display:flex;gap:16px;flex-wrap:wrap}
+    .btn{appearance:none;border:0;border-radius:999px;padding:16px 22px;font-weight:800;font-size:16px;cursor:pointer;transition:.2s transform ease, .2s box-shadow ease}
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{background:var(--orange);color:#fff;box-shadow:0 10px 24px rgba(243, 91, 0, .32)}
+    .btn.primary:hover{background:var(--orange-600)}
+    .btn.secondary{background:var(--purple);color:#fff;box-shadow:0 10px 24px rgba(107, 43, 211, .28)}
+    .btn.secondary:hover{background:var(--purple-700)}
+
+
+
+    /* Feature cards */
+    .features{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:38px}
+    @media (max-width: 1060px){.features{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width: 560px){.features{grid-template-columns:1fr}}
+
+    .card{background:var(--card);border-radius:var(--radius);padding:28px 24px;box-shadow:var(--shadow);display:grid;gap:12px;align-items:start}
+    .icn{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:transparent;color:var(--purple-700)}
+.icn svg{width:28px;height:28px}
+    .card h3{margin:0;font-size:18px;text-transform:uppercase;text-align:center;letter-spacing:.2px;color:var(--orange)}
+    .card p{margin:0;color:var(--muted);line-height:1.7;text-align:center}
+
+    /* little scroll cue (optional) */
+    .cue{display:grid;place-items:center;margin-top:26px}
+    .chev{width:20px;height:20px;border:3px solid #e7e2ff;border-left-color:transparent;border-top-color:transparent;transform:rotate(45deg);border-radius:3px}
+
+    /* WhatsApp bubble (dummy) */
+    .whats{position:fixed;right:20px;bottom:20px;width:56px;height:56px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 10px 24px rgba(37,211,102,.4)}
+    .whats svg{width:28px;height:28px;color:#fff}
+    /* Header */
+    .site-header{background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:50}
+    .site-header .container{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:12px 20px}
+    .logo img{height:40px;display:block}
+    .nav{display:flex;align-items:center;justify-content:center;gap:28px}
+    .nav a{color:var(--muted);text-decoration:none;font-weight:600}
+    .nav a:hover{color:var(--ink)}
+    .nav .caret{margin-left:6px;opacity:.6;font-size:.85em}
+    .cta-button{background:var(--orange);color:#fff;padding:10px 18px;border-radius:9999px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 1px 0 rgba(0,0,0,.08), inset 0 -2px 0 rgba(0,0,0,.08)}
+    .cta-button:hover{filter:brightness(.96)}
+.card .btn-cta{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:9999px;font-weight:800;font-size:14px;text-decoration:none;background:var(--purple);color:#fff;box-shadow:0 10px 24px rgba(107,43,211,.25);justify-self:center;margin-top:8px}
+.card .btn-cta:hover{filter:brightness(.96)}
+.section-intro{text-align:center;margin:64px 0 20px}
+.section-title{font-weight:900;font-size:clamp(24px,3.2vw,36px);margin:0}
+.chevs{display:grid;place-items:center;gap:4px;margin-bottom:12px}
+.chev-down{width:18px;height:18px;border:4px solid var(--orange);border-left-color:transparent;border-top-color:transparent;transform:rotate(45deg);border-radius:3px}
+.chev-down.second{margin-top:-6px}
+.hero-divider{height:1px;background:linear-gradient(90deg,transparent 0%,#e5e7eb 20%,#e5e7eb 80%,transparent 100%);margin:48px 0 0;opacity:.6}
+
+    /* Benefits section */
+    .benefits{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:24px;
+      margin:48px 0;
+      padding:32px 0;
+    }
+    @media (max-width: 1060px){.benefits{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width: 560px){.benefits{grid-template-columns:1fr}}
+
+    .benefit-item{
+      text-align:center;
+      padding:20px 16px;
+    }
+    .benefit-icon{
+      width:64px;
+      height:64px;
+      margin:0 auto 16px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      border-radius:16px;
+      border:2px solid #e2e8f0;
+    }
+    .benefit-icon svg{
+      width:32px;
+      height:32px;
+      color:var(--purple);
+    }
+    .benefit-title{
+      font-size:16px;
+      font-weight:700;
+      color:#1e293b;
+      margin:0 0 8px;
+      line-height:1.3;
+    }
+    .benefit-subtitle{
+      font-size:14px;
+      color:var(--muted);
+      margin:0;
+      line-height:1.4;
+    }
+
+    /* Experience section */
+    .experience-section{
+      margin:64px 0;
+      padding:0;
+    }
+    .experience-card{
+      background:linear-gradient(to right, #ffffff 0%, #f8fafc 30%, #e2e8f0 60%, #0077ff 100%);
+      border-radius:24px;
+      padding:48px 40px;
+      position:relative;
+      overflow:hidden;
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:32px;
+      align-items:center;
+      color:#1e293b;
+      animation:slideInUp 0.8s ease-out;
+    }
+    .experience-card::after{
+      content:"";
+      position:absolute;
+      top:0;
+      left:-100%;
+      width:100%;
+      height:100%;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation:shimmer 3s ease-in-out infinite;
+    }
+    @media (max-width: 768px){
+      .experience-card{
+        grid-template-columns:1fr;
+        text-align:center;
+        gap:24px;
+        padding:32px 24px;
+      }
+    }
+    .experience-card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      right:0;
+      width:40%;
+      height:100%;
+      background:linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+      border-radius:0 24px 24px 0;
+    }
+    .experience-icon{
+      position:relative;
+      z-index:2;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+      width:120px;
+      height:120px;
+      background:rgba(0,119,255,0.1);
+      border-radius:50%;
+      backdrop-filter:blur(10px);
+      border:2px solid rgba(0,119,255,0.2);
+      animation:float 3s ease-in-out infinite, pulse 2s ease-in-out infinite;
+      transition:transform 0.3s ease;
+    }
+    .experience-icon:hover{
+      transform:scale(1.05);
+    }
+    .experience-icon img{
+      width:60px;
+      height:60px;
+      object-fit:contain;
+      animation:rotate 8s linear infinite;
+    }
+    .experience-content{
+      position:relative;
+      z-index:2;
+      animation:fadeInRight 1s ease-out 0.3s both;
+    }
+    .experience-text{
+      font-size:24px;
+      font-weight:600;
+      line-height:1.4;
+      margin:0;
+      background:linear-gradient(45deg, #1e293b, #0077ff, #1e293b);
+      background-size:200% 200%;
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+      animation:gradientText 4s ease-in-out infinite;
+    }
+    @media (max-width: 768px){
+      .experience-text{font-size:20px}
+    }
+
+    /* Keyframes */
+    @keyframes slideInUp{
+      from{
+        opacity:0;
+        transform:translateY(30px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+    @keyframes shimmer{
+      0%{left:-100%}
+      50%{left:100%}
+      100%{left:100%}
+    }
+    @keyframes float{
+      0%, 100%{transform:translateY(0px)}
+      50%{transform:translateY(-10px)}
+    }
+    @keyframes pulse{
+      0%, 100%{box-shadow:0 0 0 0 rgba(0,119,255,0.4)}
+      50%{box-shadow:0 0 0 20px rgba(0,119,255,0)}
+    }
+    @keyframes rotate{
+      from{transform:rotate(0deg)}
+      to{transform:rotate(360deg)}
+    }
+    @keyframes fadeInRight{
+      from{
+        opacity:0;
+        transform:translateX(30px);
+      }
+      to{
+        opacity:1;
+        transform:translateX(0);
+      }
+    }
+    @keyframes gradientText{
+      0%, 100%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+    }
+
+    /* Journey sections */
+    .journey-section{
+      margin:64px 0;
+    }
+    .journey-title{
+      text-align:center;
+      font-size:32px;
+      font-weight:900;
+      color:#1e293b;
+      margin:0 0 48px;
+    }
+    .journey-steps{
+      display:flex;
+      flex-direction:column;
+      gap:48px;
+      position:relative;
+      max-width:900px;
+      margin:0 auto;
+      padding:0 20px;
+    }
+    .journey-steps::before{
+      content:"";
+      position:absolute;
+      top:100px;
+      bottom:100px;
+      left:50%;
+      width:2px;
+      background:#e2e8f0;
+      transform:translateX(-50%);
+      z-index:1;
+      border-radius:1px;
+    }
+    @media (max-width: 768px){
+      .journey-steps{
+        gap:32px;
+        padding:0 10px;
+      }
+      .journey-steps::before{
+        left:30px;
+        transform:none;
+      }
+    }
+    .step-item{
+      position:relative;
+      z-index:2;
+      animation:fadeInUp 0.6s ease-out;
+      display:flex;
+      align-items:center;
+      width:100%;
+    }
+    .step-item:nth-child(1){animation-delay:0.1s}
+    .step-item:nth-child(2){animation-delay:0.2s}
+    .step-item:nth-child(3){animation-delay:0.3s}
+
+    /* Card esquerda (1º e 3º) */
+    .step-item:nth-child(odd){
+      justify-content:flex-start;
+    }
+    .step-item:nth-child(odd) .step-card{
+      margin-right:auto;
+      margin-left:0;
+    }
+
+    /* Card direita (2º) */
+    .step-item:nth-child(even){
+      justify-content:flex-end;
+    }
+    .step-item:nth-child(even) .step-card{
+      margin-left:auto;
+      margin-right:0;
+    }
+
+    .step-card{
+      background:white;
+      border-radius:20px;
+      padding:32px;
+      box-shadow:0 8px 25px rgba(18, 16, 28, .08);
+      border:1px solid #e2e8f0;
+      transition:transform 0.3s ease, box-shadow 0.3s ease;
+      width:350px;
+      min-height:200px;
+      display:flex;
+      flex-direction:column;
+      text-align:center;
+      position:relative;
+    }
+    .step-card:hover{
+      transform:translateY(-5px);
+      box-shadow:0 15px 35px rgba(18, 16, 28, .12);
+    }
+    .step-card.active{
+      background:white;
+      border:2px solid #f0f0f0;
+    }
+    .step-tag{
+      background:#ff6b35;
+      color:white;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:1px;
+      padding:6px 12px;
+      border-radius:12px;
+      display:inline-block;
+      margin:0 auto 16px;
+      width:fit-content;
+    }
+    .step-tag.blue{
+      background:#3b82f6;
+    }
+    .step-tag.purple{
+      background:#8b5cf6;
+    }
+    .step-tag.green{
+      background:#10b981;
+    }
+    .step-icon{
+      width:50px;
+      height:50px;
+      background:#ff6b35;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      margin:0 auto 20px;
+    }
+    .step-icon.blue{
+      background:#3b82f6;
+    }
+    .step-icon.purple{
+      background:#8b5cf6;
+    }
+    .step-icon.green{
+      background:#10b981;
+    }
+    .step-icon svg{
+      width:24px;
+      height:24px;
+    }
+    .step-bullet{
+      width:12px;
+      height:12px;
+      background:#0077ff;
+      border-radius:50%;
+      margin:0 auto 20px;
+      position:relative;
+    }
+    @media (max-width: 768px){
+      .step-item{
+        justify-content:center !important;
+      }
+      .step-item .step-card{
+        margin:0 !important;
+        width:calc(100% - 40px);
+        max-width:350px;
+      }
+    }
+    .step-title{
+      font-size:22px;
+      font-weight:700;
+      color:#2d3748;
+      margin:0 0 16px;
+      line-height:1.3;
+    }
+    .step-description{
+      font-size:15px;
+      color:#718096;
+      line-height:1.6;
+      margin:0;
+      text-align:left;
+    }
+    .step-subtitle{
+      font-size:14px;
+      color:#a0aec0;
+      margin:0;
+      font-weight:400;
+    }
+    .step-card.active .step-description{
+      text-align:left;
+    }
+    .step-indicator{
+      position:absolute;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      z-index:3;
+    }
+    /* Primeiro card - indicador à direita */
+    .step-item:nth-child(1) .step-indicator{
+      left:calc(50% + 175px);
+      top:50%;
+      transform:translateY(-50%);
+    }
+    /* Segundo card - indicador à esquerda */
+    .step-item:nth-child(2) .step-indicator{
+      right:calc(50% + 175px);
+      top:50%;
+      transform:translateY(-50%);
+      flex-direction:row-reverse;
+    }
+    /* Terceiro card - indicador à direita */
+    .step-item:nth-child(3) .step-indicator{
+      left:calc(50% + 175px);
+      top:50%;
+      transform:translateY(-50%);
+    }
+    .step-label{
+      font-size:14px;
+      font-weight:600;
+      color:#4a5568;
+      white-space:nowrap;
+    }
+    .step-dot{
+      width:12px;
+      height:12px;
+      background:#0077ff;
+      border-radius:50%;
+      flex-shrink:0;
+      border:3px solid white;
+      box-shadow:0 0 0 1px #e2e8f0;
+      position:absolute;
+      z-index:4;
+    }
+    .step-dot.active{
+      background:#3b82f6;
+      box-shadow:0 0 0 2px #3b82f6;
+    }
+    /* Posicionar as bolinhas exatamente na linha central */
+    .step-item:nth-child(1) .step-dot{
+      right:-6px;
+      top:50%;
+      transform:translateY(-50%);
+    }
+    .step-item:nth-child(2) .step-dot{
+      left:-6px;
+      top:50%;
+      transform:translateY(-50%);
+    }
+    .step-item:nth-child(3) .step-dot{
+      right:-6px;
+      top:50%;
+      transform:translateY(-50%);
+    }
+    @media (max-width: 768px){
+      .step-indicator{
+        display:none;
+      }
+    }
+    @keyframes fadeInUp{
+      from{
+        opacity:0;
+        transform:translateY(20px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo" aria-label="Início">
+        <img src="./image.png" alt="Logo" />
+      </a>
+
+      <nav class="nav" aria-label="Principal">
+        <a href="#contrate">Contrate <span class="caret">▾</span></a>
+        <a href="#segmentos">Segmentos <span class="caret">▾</span></a>
+        <a href="#parceiros">Parceiros <span class="caret">▾</span></a>
+        <a href="#conteudos">Conteúdos <span class="caret">▾</span></a>
+        <a href="#sobre">Sobre <span class="caret">▾</span></a>
+      </nav>
+
+      <a href="#contrate" class="cta-button">CONTRATE</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <section class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Seja nosso cliente!</p>
+        <h1 class="title">
+          <span class="orange">Contabilidade Especializada</span><br/>
+          <span class="purple">em Negócios Digitais</span>
+        </h1>
+        <p class="subtitle">Descubra por que somos a maior contabilidade para negócios digitais do Brasil, com mais de 3.000 clientes atendidos 100% pela internet.</p>
+        <div class="cta-row">
+          <button class="btn secondary">Abra sua empresa</button>
+          <button class="btn primary">Troque de contador</button>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <span class="badge">Equipe especializada • Atendimento humano</span>
+      </div>
+    </section>
+
+    <div class="hero-divider" aria-hidden="true"></div>
+
+    <section class="benefits">
+      <div class="benefit-item">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="10" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h3 class="benefit-title">Solução contábil<br>econômica e segura</h3>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <h3 class="benefit-title">Sede virtual gratuita<br><span class="benefit-subtitle">(consulte disponibilidade)</span></h3>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"/>
+          </svg>
+        </div>
+        <h3 class="benefit-title">Atendimento rápido e<br>especializado</h3>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <h3 class="benefit-title">Seu negócio totalmente<br>resguardado</h3>
+      </div>
+    </section>
+
+    <section class="section-intro" aria-labelledby="sec-oqfaremos">
+      <div class="chevs" aria-hidden="true"><span class="chev-down"></span><span class="chev-down second"></span></div>
+      <h2 id="sec-oqfaremos" class="section-title">O que faremos por você na Tactus</h2>
+    </section>
+
+
+    <section class="features">
+      <article class="card">
+        <h3>ABRA SUA EMPRESA</h3>
+        <p>Nosso time de especialistas dará todo direcionamento para você iniciar seu novo negócio de forma alinhada com os CNAEs corretos, melhor regime tributário e assessoria societária.</p>
+        <a href="#" class="btn-cta">ABRIR MINHA EMPRESA</a>
+      </article>
+
+      <article class="card">
+        <h3>TRANSFORME SEU MEI</h3>
+        <p>Analisaremos a situação do seu MEI de duas formas: Se houve estouro no limite de faturamento ou se está dentro do limite permitido. Apresentaremos um cenário de acordo com a situação.</p>
+        <a href="#" class="btn-cta">TRANSFORMAR MEU MEI</a>
+      </article>
+
+      <article class="card">
+        <h3>TROQUE DE CONTADOR</h3>
+        <p>Faremos uma análise inicial da sua empresa e faremos toda a parte burocrática de migração aos nossos cuidados juntamente com seu antigo contador. Isso garantirá que o processo seja simples e tranquilo para você.</p>
+        <a href="#" class="btn-cta">MIGRAR PARA A TACTUS</a>
+      </article>
+
+      <article class="card">
+        <h3>TERCEIRIZAR MEU FINANCEIRO</h3>
+        <p>Com o BPO Financeiro da Tactus, você terá uma grande economia e segurança ao ter a sua empresa sendo cuidada por um time financeiro especializado em seu tipo de negócio no mercado digital.</p>
+        <a href="#" class="btn-cta">MIGRAR PARA A TACTUS</a>
+      </article>
+    </section>
+
+    <section class="experience-section">
+      <div class="experience-card">
+        <div class="experience-icon">
+          <img src="./image.png" alt="Logo Tactus" />
+        </div>
+        <div class="experience-content">
+          <p class="experience-text">
+            Com a Tactus você conta com a tradição de 30 anos de mercado com a experiência de uma contabilidade especializada em negócios digitais.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="journey-section">
+      <h2 class="journey-title">Como será a sua Jornada na Tactus</h2>
+      <div class="journey-steps">
+        <div class="step-item">
+          <div class="step-card active">
+            <div class="step-tag blue">ONBOARDING</div>
+            <div class="step-icon blue">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2.5-5H18V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H8.5c-.83 0-1.5.67-1.5 1.5S7.67 9 8.5 9H9v8c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V9h.5c.83 0 1.5-.67 1.5-1.5S19.33 6 18.5 6zM12 4h4v2h-4V4z"/>
+              </svg>
+            </div>
+            <div class="step-content">
+              <h3 class="step-title">Seja Bem-Vindo!</h3>
+              <p class="step-description">Todo novo cliente da Tactus passa por um processo de onboarding que inclui: Call de ativação, orientações iniciais e rotina mensal da sua empresa conosco. Isso visa ajudar você a estar preparado(a) para administrar sua empresa de forma correta</p>
+            </div>
+          </div>
+          <div class="step-indicator">
+            <div class="step-dot active"></div>
+            <div class="step-label">Primeiro Passo</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-card">
+            <div class="step-tag purple">SUPORTE</div>
+            <div class="step-icon purple">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z"/>
+              </svg>
+            </div>
+            <div class="step-content">
+              <h3 class="step-title">Atendimento!</h3>
+              <p class="step-description">Tanto no onboarding, quanto no atendimento operacional, sua empresa terá acesso ao nosso suporte rápido e prático dentro do horário comercial pelos canais online, onde o grande objetivo é garantir que suas demandas sejam supridas.</p>
+            </div>
+          </div>
+          <div class="step-indicator">
+            <div class="step-dot"></div>
+            <div class="step-label">Segundo Passo</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-card">
+            <div class="step-tag green">CUSTOMER SUCCESS</div>
+            <div class="step-icon green">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
+            <div class="step-content">
+              <h3 class="step-title">Sua experiência</h3>
+              <p class="step-description">Nosso time de sucesso do cliente vai constantemente avaliar seu atendimento e sua satisfação para garantir a melhor experiência em sua jornada com a Tactus. Não é à toa que temos umas das melhores taxas de satisfação do mercado contábil.</p>
+            </div>
+          </div>
+          <div class="step-indicator">
+            <div class="step-dot"></div>
+            <div class="step-label">Terceiro Passo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cue" aria-hidden="true"><span class="chev"></span></div>
+  </div>
+
+  <a class="whats" href="#" title="Fale no WhatsApp">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5C3 6.81 6.81 3 11.5 3S20 6.81 20 11.5 16.19 20 11.5 20c-1.26 0-2.45-.27-3.52-.76L3 21l1.76-4.98A8.47 8.47 0 0 1 3 11.5z"/><path d="M8.5 9.5c.5 1.5 2.5 3.5 4 4l1.5-1.5"/></svg>
+  </a>
+</body>
+</html>
+
