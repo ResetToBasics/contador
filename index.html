@@ -498,22 +498,22 @@
       gap:12px;
       z-index:3;
     }
-    /* Primeiro card - indicador à direita */
+    /* Primeiro card - indicador à direita (ancorado na linha central) */
     .step-item:nth-child(1) .step-indicator{
-      left:calc(50% + 175px);
+      left:50%;
       top:50%;
       transform:translateY(-50%);
     }
-    /* Segundo card - indicador à esquerda */
+    /* Segundo card - indicador à esquerda (ancorado na linha central) */
     .step-item:nth-child(2) .step-indicator{
-      right:calc(50% + 175px);
+      left:50%;
       top:50%;
       transform:translateY(-50%);
       flex-direction:row-reverse;
     }
-    /* Terceiro card - indicador à direita */
+    /* Terceiro card - indicador à direita (ancorado na linha central) */
     .step-item:nth-child(3) .step-indicator{
-      left:calc(50% + 175px);
+      left:50%;
       top:50%;
       transform:translateY(-50%);
     }
@@ -523,6 +523,11 @@
       color:#4a5568;
       white-space:nowrap;
     }
+    /* Distância do texto em relação à linha central */
+    .step-item:nth-child(1) .step-label,
+    .step-item:nth-child(3) .step-label{ margin-left: 40px; }
+    .step-item:nth-child(2) .step-label{ transform: translateX(calc(-100% - 40px)); margin: 0; }
+
     .step-dot{
       width:12px;
       height:12px;
@@ -540,7 +545,7 @@
     }
     /* Posicionar as bolinhas exatamente na linha central */
     .step-item:nth-child(1) .step-dot{
-      right:-6px;
+      left:-6px;
       top:50%;
       transform:translateY(-50%);
     }
@@ -550,7 +555,7 @@
       transform:translateY(-50%);
     }
     .step-item:nth-child(3) .step-dot{
-      right:-6px;
+      left:-6px;
       top:50%;
       transform:translateY(-50%);
     }
@@ -658,7 +663,7 @@
 
     <section class="section-intro" aria-labelledby="sec-oqfaremos">
       <div class="chevs" aria-hidden="true"><span class="chev-down"></span><span class="chev-down second"></span></div>
-      <h2 id="sec-oqfaremos" class="section-title">O que faremos por você na Tactus</h2>
+      <h2 id="sec-oqfaremos" class="section-title">O que faremos por você na RBO</h2>
     </section>
 
 
@@ -678,31 +683,31 @@
       <article class="card">
         <h3>TROQUE DE CONTADOR</h3>
         <p>Faremos uma análise inicial da sua empresa e faremos toda a parte burocrática de migração aos nossos cuidados juntamente com seu antigo contador. Isso garantirá que o processo seja simples e tranquilo para você.</p>
-        <a href="#" class="btn-cta">MIGRAR PARA A TACTUS</a>
+        <a href="#" class="btn-cta">MIGRAR PARA A RBO</a>
       </article>
 
       <article class="card">
         <h3>TERCEIRIZAR MEU FINANCEIRO</h3>
-        <p>Com o BPO Financeiro da Tactus, você terá uma grande economia e segurança ao ter a sua empresa sendo cuidada por um time financeiro especializado em seu tipo de negócio no mercado digital.</p>
-        <a href="#" class="btn-cta">MIGRAR PARA A TACTUS</a>
+        <p>Com o BPO Financeiro da RBO, você terá uma grande economia e segurança ao ter a sua empresa sendo cuidada por um time financeiro especializado em seu tipo de negócio no mercado digital.</p>
+        <a href="#" class="btn-cta">MIGRAR PARA A RBO</a>
       </article>
     </section>
 
     <section class="experience-section">
       <div class="experience-card">
         <div class="experience-icon">
-          <img src="./image.png" alt="Logo Tactus" />
+          <img src="./image.png" alt="Logo RBO" />
         </div>
         <div class="experience-content">
           <p class="experience-text">
-            Com a Tactus você conta com a tradição de 30 anos de mercado com a experiência de uma contabilidade especializada em negócios digitais.
+            Com a RBO você conta com a tradição de 30 anos de mercado com a experiência de uma contabilidade especializada em negócios digitais.
           </p>
         </div>
       </div>
     </section>
 
     <section class="journey-section">
-      <h2 class="journey-title">Como será a sua Jornada na Tactus</h2>
+      <h2 class="journey-title">Como será a sua Jornada na RBO</h2>
       <div class="journey-steps">
         <div class="step-item">
           <div class="step-card active">
@@ -714,7 +719,7 @@
             </div>
             <div class="step-content">
               <h3 class="step-title">Seja Bem-Vindo!</h3>
-              <p class="step-description">Todo novo cliente da Tactus passa por um processo de onboarding que inclui: Call de ativação, orientações iniciais e rotina mensal da sua empresa conosco. Isso visa ajudar você a estar preparado(a) para administrar sua empresa de forma correta</p>
+              <p class="step-description">Todo novo cliente da RBO passa por um processo de onboarding que inclui: Call de ativação, orientações iniciais e rotina mensal da sua empresa conosco. Isso visa ajudar você a estar preparado(a) para administrar sua empresa de forma correta</p>
             </div>
           </div>
           <div class="step-indicator">
@@ -752,7 +757,7 @@
             </div>
             <div class="step-content">
               <h3 class="step-title">Sua experiência</h3>
-              <p class="step-description">Nosso time de sucesso do cliente vai constantemente avaliar seu atendimento e sua satisfação para garantir a melhor experiência em sua jornada com a Tactus. Não é à toa que temos umas das melhores taxas de satisfação do mercado contábil.</p>
+              <p class="step-description">Nosso time de sucesso do cliente vai constantemente avaliar seu atendimento e sua satisfação para garantir a melhor experiência em sua jornada com a RBO. Não é à toa que temos umas das melhores taxas de satisfação do mercado contábil.</p>
             </div>
           </div>
           <div class="step-indicator">
