@@ -7,6 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" href="./image.png" type="image/png" />
+  <link rel="shortcut icon" href="./image.png" type="image/png" />
+
   <style>
     :root{
       --bg:#ffffff;
@@ -576,6 +579,38 @@
     }
 
 
+    /* Blog / Últimas postagens */
+    .blog-section{margin:64px 0 80px}
+    .blog-title{margin:0 0 12px;text-align:center;font-weight:900;font-size:clamp(24px,3vw,34px)}
+    .blog-subtitle{margin:0 0 24px;text-align:center;color:var(--muted)}
+    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    @media (max-width: 1060px){.blog-grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width: 640px){.blog-grid{grid-template-columns:1fr}}
+    .post-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+    .post-media{display:block;aspect-ratio:16/9;background:#e5e7eb}
+    .post-media img{width:100%;height:100%;object-fit:cover;display:block}
+    .post-body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+    .post-meta{font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.3px;font-weight:800}
+    .post-title{margin:0;font-size:18px;line-height:1.35}
+    .post-title a{color:var(--ink);text-decoration:none}
+    .post-title a:hover{color:var(--orange)}
+    .post-excerpt{margin:0;color:var(--muted);line-height:1.6}
+    .post-readmore{margin-top:auto;font-weight:800;color:var(--orange);text-decoration:none}
+    .blog-actions{margin-top:18px;text-align:center}
+    .blog-actions .btn-cta{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:9999px;font-weight:800;font-size:14px;text-decoration:none;background:var(--orange);color:#fff;box-shadow:0 10px 24px rgba(0,119,255,.25)}
+    /* FAQ */
+    .faq-section{margin:64px 0 80px}
+    .faq-title{text-align:center;font-weight:900;font-size:clamp(24px,3vw,34px);margin:0 0 12px}
+    .faq-subtitle{text-align:center;color:var(--muted);margin:0 0 24px}
+    .faq-list{max-width:900px;margin:0 auto;display:grid;gap:12px}
+    .faq-item{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid #e5e7eb;overflow:hidden}
+    .faq-item summary{list-style:none;cursor:pointer;padding:18px 20px;font-weight:800;display:flex;align-items:center;gap:12px}
+    .faq-item summary::-webkit-details-marker{display:none}
+    .faq-item .answer{padding:0 20px 18px;color:var(--muted);line-height:1.65}
+    .faq-item[open] summary{border-bottom:1px solid #e5e7eb}
+    .faq-icon{width:20px;height:20px;display:grid;place-items:center;border-radius:50%;background:rgba(0,119,255,.08);color:var(--orange);font-weight:900}
+
+
   </style>
 </head>
 <body>
@@ -749,6 +784,7 @@
 
         <div class="step-item">
           <div class="step-card">
+
             <div class="step-tag green">CUSTOMER SUCCESS</div>
             <div class="step-icon green">
               <svg viewBox="0 0 24 24" fill="currentColor">
@@ -767,6 +803,109 @@
         </div>
       </div>
     </section>
+
+    <section id="blog" class="blog-section">
+      <h2 class="blog-title">Últimas do Blog</h2>
+      <p class="blog-subtitle">Notícias e conteúdos do Rogério para você ficar por dentro.</p>
+      <div class="blog-grid">
+        <article class="post-card">
+          <a class="post-media" href="#" title="Ver postagem">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop" alt="Thumb post 1"/>
+          </a>
+          <div class="post-body">
+            <span class="post-meta">Notícia • 15 Set 2025</span>
+            <h3 class="post-title"><a href="#">Como organizar suas finanças para escalar seu negócio</a></h3>
+            <p class="post-excerpt">Dicas práticas do Rogério sobre fluxo de caixa, previsibilidade e rotinas financeiras.</p>
+            <a class="post-readmore" href="#">Ler mais →</a>
+          </div>
+        </article>
+        <article class="post-card">
+          <a class="post-media" href="#" title="Ver postagem">
+            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1200&auto=format&fit=crop" alt="Thumb post 2"/>
+          </a>
+          <div class="post-body">
+            <span class="post-meta">Blog • 10 Set 2025</span>
+            <h3 class="post-title"><a href="#">Tributação no digital: o que muda em 2025</a></h3>
+            <p class="post-excerpt">Entenda os principais pontos de atenção para infoprodutores, agências e e-commerces.</p>
+            <a class="post-readmore" href="#">Ler mais →</a>
+          </div>
+        </article>
+        <article class="post-card">
+          <a class="post-media" href="#" title="Ver postagem">
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop" alt="Thumb post 3"/>
+          </a>
+
+
+
+          <div class="post-body">
+            <span class="post-meta">Dica • 02 Set 2025</span>
+            <h3 class="post-title"><a href="#">MEI, Simples ou Lucro Presumido? Escolha certa para o seu caso</a></h3>
+            <p class="post-excerpt">Uma visão direta para ajudar na decisão do melhor enquadramento tributário.</p>
+            <a class="post-readmore" href="#">Ler mais →</a>
+          </div>
+        </article>
+      </div>
+      <div class="blog-actions">
+        <a href="#" class="btn-cta">Ver todas as notícias</a>
+      </div>
+    </section>
+
+    <section id="faq" class="faq-section">
+      <h2 class="faq-title">Dúvidas frequentes</h2>
+      <p class="faq-subtitle">Algumas perguntas que recebemos por aqui.</p>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary><span class="faq-icon">?</span> Quais negócios/empresas vocês atendem?</summary>
+          <div class="answer">Atendemos um amplo espectro de empresas provenientes de variados ramos e setores. Além disso, temos planos especiais desenvolvidos para pequenos negócios (ME), que se encontram na fase inicial de suas atividades. Fale com o contador no WhatsApp e abra sua empresa ou troque de contador!</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="faq-icon">?</span> Vocês atendem MEI (Microempreendedor Individual)?</summary>
+          <div class="answer">Sim, atendemos MEI. Inclusive possuímos uma assessoria contábil e financeira diferenciada e com preço reduzido focado para o atendimento de MEIs. Solicite agora a realização da Declaração Anual do MEI.</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="faq-icon">?</span> Vocês atendem Micro e Pequenas empresas(ME)?</summary>
+          <div class="answer">Sim, somos especializados em atender Micro e Pequenas Empresas de diversos ramos. Especialmente, empresas que estão iniciando ou migrando de MEI para ME.</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="faq-icon">?</span> Quais os tipos de serviços vocês oferecem?</summary>
+          <div class="answer">Os principais serviços que oferecemos na nossa empresa são: Abertura de empresas, Assessoria Contábil, Assessoria Fiscal, Assessoria Trabalhista, Consultoria Financeira, Fechamento de empresas, Empregador Doméstico (E-social) e Imposto de Renda Pessoa Física (IRPF). Nós oferecemos pacotes com diferentes serviços. Quer saber mais? <a href="#" style="color:var(--orange);font-weight:800;text-decoration:none">Clique aqui</a> e fale com contador!</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="faq-icon">?</span> Como é o atendimento da RBO Contabilidade?</summary>
+          <div class="answer">Na RBO Contabilidade você fala sempre direto com o Contador. O método de contato você pode escolher: WhatsApp, Telefone, email, chamada de vídeo e pessoalmente (é preciso agendamento prévio).</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="faq-icon">?</span> Já tenho um negócio, mas sou informal (sem CNPJ), qual risco eu corro?</summary>
+          <div class="answer">São muitas as desvantagens da informalidade. Vou citar algumas para você: 1) Não poder emitir nota fiscal, sendo que cada vez mais consumidores exigem a nota fiscal; 2) Fica exposto a sofrer fiscalizações do fisco e ter que pagar altíssimas multas; 3) Não poder assinar a carteira de funcionários e, assim, podendo sofrer ações trabalhistas; 4) Dificuldade para conseguir empréstimos bancários; 5) Não há proteção aos bens pessoais do empresário. Ou seja, caso seja multado pelo fisco ou processado por um funcionário, o empresário corre o risco de perder seus bens pessoais. Quer se proteger e regularizar o seu negócio? Fale comigo!</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="faq-icon">?</span> Como faço para abrir uma empresa?</summary>
+          <div class="answer">Caso queira abrir uma empresa, entre em contato conosco que nós cuidamos de toda a burocracia. Realizamos todos os processos necessários para que você esteja 100% legalizado. Emitimos seu CNPJ, seu Contrato Social, seu Alvará de funcionamento, sua inscrição municipal/estadual e o seu registro no Simples Nacional.</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="faq-icon">?</span> Quanto custa abrir uma empresa (tira o CNPJ)?</summary>
+          <div class="answer">O custo de abertura de uma empresa varia bastante dependendo do porte da empresa, da área de atuação, da cidade e do estado. Em Teresina, o custo total de abertura de uma empresa de ME com registro na Junta Comercial varia entre R$1.500,00 a R$2.500,00. Esse valor inclui: mão de obra do contador, taxa da JUCEPI, Certificado Digital e as taxas governamentais mais comuns. Todavia, dependendo da área de atuação do teu negócio outras licenças podem ser obrigatórias. Solicite um orçamento!</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="faq-icon">?</span> Vocês cobram 13º?</summary>
+          <div class="answer">Não, não cobramos. Os clientes pagam apenas 12 mensalidades anuais. Abra sua empresa ou migre para nossa contabilidade e pague apenas pelo que você precisa para o seu negócio.</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="faq-icon">?</span> Quais os principais problemas financeiros identificados nas pequenas empresas?</summary>
+          <div class="answer">Os principais problemas financeiros identificados em pequenas empresas são: 1) Sócios desconhecem os resultados da empresa; 2) Estagnação financeira; Mistura de despesas pessoais com despesas da empresa; 3) Não possui sistema financeiro; 4) Processo incorreto de emissão de notas fiscais; 5) Possível recolhimento a maior de tributos. Aqui, na RBO Contabilidade podemos ajudar seu negócio a corrigir todos esses problemas. Fale com o contador e veja como!</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="faq-icon">?</span> Vocês podem ajudar na gestão financeira da minha empresa?</summary>
+          <div class="answer">Sim, possuímos uma solução para empresas que precisam de uma melhor gestão financeira.</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="faq-icon">?</span> Quero fazer minha Declaração de Imposto de Renda anual Pessoa física, o que preciso?</summary>
+          <div class="answer">O processo é bem simples, tudo será feito pelo whatsapp. Vou te enviar a lista com toda a documentação necessária e você me envia tudo por foto ou escaneado direto no whatsapp ou email (se preferir). Você faz o pagamento via pix e te envio a declaração e o recibo de entrega.</div>
+        </details>
+      </div>
+    </section>
+
+
 
     <div class="cue" aria-hidden="true"><span class="chev"></span></div>
   </div>
