@@ -96,9 +96,9 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial
 }
 
 @media (max-width: 768px) {
-  /* Header mobile */
+  /* Header mobile - só logo e hamburger */
   .site-header .container {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr;
     gap: 12px;
     padding: 8px 16px;
   }
@@ -107,8 +107,9 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial
     height: 32px;
   }
 
-  /* Esconder navegação no mobile */
-  .nav {
+  /* Esconder navegação e botão CTA no mobile */
+  .nav,
+  .cta-button {
     display: none;
     position: absolute;
     top: 100%;
@@ -120,6 +121,7 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial
     gap: 0;
     padding: 16px 0;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 100;
   }
 
   .nav.active {
@@ -140,12 +142,7 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial
   /* Mostrar botão hamburger */
   .mobile-menu-toggle {
     display: block;
-  }
-
-  /* Botão CTA menor no mobile */
-  .cta-button {
-    padding: 8px 16px;
-    font-size: 14px;
+    justify-self: end;
   }
 
   /* Header sticky com posição relativa para menu */
