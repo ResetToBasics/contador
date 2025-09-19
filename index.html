@@ -697,12 +697,16 @@
         <img src="./image.png" alt="Logo" />
       </a>
 
-      <nav class="nav" aria-label="Principal">
-        <a href="#inicio">Início</a>
-        <a href="#servicos">Serviços</a>
-        <a href="#jornada">Jornada</a>
-        <a href="#blog">Blog</a>
-        <a href="#faq">FAQ</a>
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Menu">
+        ☰
+      </button>
+
+      <nav class="nav" id="mobileNav" aria-label="Principal">
+        <a href="#inicio" onclick="closeMobileMenu()">Início</a>
+        <a href="#servicos" onclick="closeMobileMenu()">Serviços</a>
+        <a href="#jornada" onclick="closeMobileMenu()">Jornada</a>
+        <a href="#blog" onclick="closeMobileMenu()">Blog</a>
+        <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
       </nav>
 
       <a href="#contrate" class="cta-button">CONTRATE</a>
@@ -1279,6 +1283,27 @@
       if (e.target.tagName === 'A' && e.target.getAttribute('href') === '#admin') {
         e.preventDefault();
         window.location.hash = 'admin';
+      }
+    });
+
+    // Menu mobile
+    function toggleMobileMenu() {
+      const nav = document.getElementById('mobileNav');
+      nav.classList.toggle('active');
+    }
+
+    function closeMobileMenu() {
+      const nav = document.getElementById('mobileNav');
+      nav.classList.remove('active');
+    }
+
+    // Fechar menu ao clicar fora
+    document.addEventListener('click', function(e) {
+      const nav = document.getElementById('mobileNav');
+      const toggle = document.querySelector('.mobile-menu-toggle');
+
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+        nav.classList.remove('active');
       }
     });
   </script>
