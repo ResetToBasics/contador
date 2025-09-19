@@ -610,10 +610,87 @@
     .faq-item[open] summary{border-bottom:1px solid #e5e7eb}
     .faq-icon{width:20px;height:20px;display:grid;place-items:center;border-radius:50%;background:rgba(0,119,255,.08);color:var(--orange);font-weight:900}
 
+    /* Admin Mode */
+    .admin-bar{position:fixed;top:0;left:0;right:0;background:#2c3e50;color:white;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;z-index:1000;font-size:14px}
+    .admin-bar.hidden{display:none}
+    .admin-info{display:flex;align-items:center;gap:10px}
+    .admin-actions{display:flex;gap:10px}
+    .admin-btn{background:#3498db;color:white;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px}
+    .admin-btn:hover{background:#2980b9}
+    .admin-btn.logout{background:#e74c3c}
+    .admin-btn.logout:hover{background:#c0392b}
+    .editable{position:relative;transition:all 0.3s}
+    body.admin-mode .editable{cursor:pointer}
+    body.admin-mode .editable:hover{background:rgba(52,152,219,0.1);outline:2px dashed #3498db}
+    .editable.editing{background:transparent;outline:none}
+    .edit-overlay{position:absolute;top:-30px;right:0;background:#3498db;color:white;padding:4px 8px;border-radius:4px;font-size:11px;pointer-events:none}
+    body.admin-mode{padding-top:50px}
+
+    /* Admin Login Page */
+    .admin-login-page{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);display:flex;align-items:center;justify-content:center;z-index:9999}
+    .admin-login-page.hidden{display:none}
+    .login-container{background:white;padding:40px;border-radius:12px;box-shadow:0 20px 40px rgba(0,0,0,0.1);width:100%;max-width:400px}
+    .login-container .logo{text-align:center;margin-bottom:30px}
+    .login-container .logo img{width:120px;height:auto}
+    .login-container h1{text-align:center;margin-bottom:30px;color:#333;font-size:24px}
+    .form-group{margin-bottom:20px}
+    .form-group label{display:block;margin-bottom:8px;color:#555;font-weight:600}
+    .form-group input{width:100%;padding:12px 16px;border:2px solid #e1e5e9;border-radius:8px;font-size:16px;transition:border-color 0.3s}
+    .form-group input:focus{outline:none;border-color:#0077ff}
+    .btn-login{width:100%;padding:14px;background:#0077ff;color:white;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;transition:background 0.3s}
+    .btn-login:hover{background:#0066dd}
+    .login-error{color:#e74c3c;text-align:center;margin-top:15px;font-size:14px}
+    .login-success{color:#27ae60;text-align:center;margin-top:15px;font-size:14px}
+    .back-link{text-align:center;margin-top:20px}
+    .back-link a{color:#666;text-decoration:none;font-size:14px}
+    .back-link a:hover{color:#0077ff}
 
   </style>
 </head>
 <body>
+  <!-- Admin Login Page -->
+  <div id="adminLoginPage" class="admin-login-page hidden">
+    <div class="login-container">
+      <div class="logo">
+        <img src="./image.png" alt="RBO Contabilidade" />
+      </div>
+
+      <h1>Área Administrativa</h1>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">E-mail:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Senha:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+
+        <button type="submit" class="btn-login">Entrar</button>
+
+        <div id="loginMessage"></div>
+      </form>
+
+      <div class="back-link">
+        <a href="#" onclick="showLanding()">← Voltar para o site</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Bar (hidden by default) -->
+  <div id="adminBar" class="admin-bar hidden">
+    <div class="admin-info">
+      <span>🔧 Modo Administrador</span>
+      <span id="adminEmail"></span>
+    </div>
+    <div class="admin-actions">
+      <button class="admin-btn" onclick="saveChanges()">💾 Salvar Alterações</button>
+      <button class="admin-btn" onclick="clearCache()" style="background:#f39c12">🗑️ Limpar Cache</button>
+      <button class="admin-btn logout" onclick="logout()">🚪 Sair</button>
+    </div>
+  </div>
   <header class="site-header">
     <div class="container">
       <a href="/" class="logo" aria-label="Início">
@@ -621,11 +698,11 @@
       </a>
 
       <nav class="nav" aria-label="Principal">
-        <a href="#contrate">Contrate <span class="caret">▾</span></a>
-        <a href="#segmentos">Segmentos <span class="caret">▾</span></a>
-        <a href="#parceiros">Parceiros <span class="caret">▾</span></a>
-        <a href="#conteudos">Conteúdos <span class="caret">▾</span></a>
-        <a href="#sobre">Sobre <span class="caret">▾</span></a>
+        <a href="#inicio">Início</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#jornada">Jornada</a>
+        <a href="#blog">Blog</a>
+        <a href="#faq">FAQ</a>
       </nav>
 
       <a href="#contrate" class="cta-button">CONTRATE</a>
@@ -633,17 +710,17 @@
   </header>
 
   <div class="container">
-    <section class="hero">
+    <section id="inicio" class="hero">
       <div class="hero-content">
-        <p class="eyebrow">Seja nosso cliente!</p>
+        <p class="eyebrow editable" data-field="hero_eyebrow">Seja nosso cliente!</p>
         <h1 class="title">
-          <span class="orange">Contabilidade Especializada</span><br/>
-          <span class="purple">em Negócios Digitais</span>
+          <span class="orange editable" data-field="hero_title_1">Contabilidade Especializada</span><br/>
+          <span class="purple editable" data-field="hero_title_2">em Negócios Digitais</span>
         </h1>
-        <p class="subtitle">Descubra por que somos a maior contabilidade para negócios digitais do Brasil, com mais de 3.000 clientes atendidos 100% pela internet.</p>
+        <p class="subtitle editable" data-field="hero_subtitle">Descubra por que somos a maior contabilidade para negócios digitais do Brasil, com mais de 3.000 clientes atendidos 100% pela internet.</p>
         <div class="cta-row">
-          <button class="btn secondary">Abra sua empresa</button>
-          <button class="btn primary">Troque de contador</button>
+          <button class="btn secondary editable" data-field="hero_btn_1">Abra sua empresa</button>
+          <button class="btn primary editable" data-field="hero_btn_2">Troque de contador</button>
         </div>
       </div>
 
@@ -662,7 +739,7 @@
             <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
           </svg>
         </div>
-        <h3 class="benefit-title">Solução contábil<br>econômica e segura</h3>
+        <h3 class="benefit-title editable" data-field="benefit_1_title">Solução contábil<br>econômica e segura</h3>
       </div>
 
       <div class="benefit-item">
@@ -672,7 +749,7 @@
             <circle cx="12" cy="10" r="3"/>
           </svg>
         </div>
-        <h3 class="benefit-title">Sede virtual gratuita<br><span class="benefit-subtitle">(consulte disponibilidade)</span></h3>
+        <h3 class="benefit-title editable" data-field="benefit_2_title">Sede virtual gratuita<br><span class="benefit-subtitle editable" data-field="benefit_2_subtitle">(consulte disponibilidade)</span></h3>
       </div>
 
       <div class="benefit-item">
@@ -681,7 +758,7 @@
             <polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"/>
           </svg>
         </div>
-        <h3 class="benefit-title">Atendimento rápido e<br>especializado</h3>
+        <h3 class="benefit-title editable" data-field="benefit_3_title">Atendimento rápido e<br>especializado</h3>
       </div>
 
       <div class="benefit-item">
@@ -692,39 +769,39 @@
             <path d="M2 12l10 5 10-5"/>
           </svg>
         </div>
-        <h3 class="benefit-title">Seu negócio totalmente<br>resguardado</h3>
+        <h3 class="benefit-title editable" data-field="benefit_4_title">Seu negócio totalmente<br>resguardado</h3>
       </div>
     </section>
 
     <section class="section-intro" aria-labelledby="sec-oqfaremos">
       <div class="chevs" aria-hidden="true"><span class="chev-down"></span><span class="chev-down second"></span></div>
-      <h2 id="sec-oqfaremos" class="section-title">O que faremos por você na RBO</h2>
+      <h2 id="sec-oqfaremos" class="section-title editable" data-field="services_title">O que faremos por você na RBO</h2>
     </section>
 
 
-    <section class="features">
+    <section id="servicos" class="features">
       <article class="card">
-        <h3>ABRA SUA EMPRESA</h3>
-        <p>Nosso time de especialistas dará todo direcionamento para você iniciar seu novo negócio de forma alinhada com os CNAEs corretos, melhor regime tributário e assessoria societária.</p>
-        <a href="#" class="btn-cta">ABRIR MINHA EMPRESA</a>
+        <h3 class="editable" data-field="card_1_title">ABRA SUA EMPRESA</h3>
+        <p class="editable" data-field="card_1_text">Nosso time de especialistas dará todo direcionamento para você iniciar seu novo negócio de forma alinhada com os CNAEs corretos, melhor regime tributário e assessoria societária.</p>
+        <a href="#" class="btn-cta editable" data-field="card_1_button">ABRIR MINHA EMPRESA</a>
       </article>
 
       <article class="card">
-        <h3>TRANSFORME SEU MEI</h3>
-        <p>Analisaremos a situação do seu MEI de duas formas: Se houve estouro no limite de faturamento ou se está dentro do limite permitido. Apresentaremos um cenário de acordo com a situação.</p>
-        <a href="#" class="btn-cta">TRANSFORMAR MEU MEI</a>
+        <h3 class="editable" data-field="card_2_title">TRANSFORME SEU MEI</h3>
+        <p class="editable" data-field="card_2_text">Analisaremos a situação do seu MEI de duas formas: Se houve estouro no limite de faturamento ou se está dentro do limite permitido. Apresentaremos um cenário de acordo com a situação.</p>
+        <a href="#" class="btn-cta editable" data-field="card_2_button">TRANSFORMAR MEU MEI</a>
       </article>
 
       <article class="card">
-        <h3>TROQUE DE CONTADOR</h3>
-        <p>Faremos uma análise inicial da sua empresa e faremos toda a parte burocrática de migração aos nossos cuidados juntamente com seu antigo contador. Isso garantirá que o processo seja simples e tranquilo para você.</p>
-        <a href="#" class="btn-cta">MIGRAR PARA A RBO</a>
+        <h3 class="editable" data-field="card_3_title">TROQUE DE CONTADOR</h3>
+        <p class="editable" data-field="card_3_text">Faremos uma análise inicial da sua empresa e faremos toda a parte burocrática de migração aos nossos cuidados juntamente com seu antigo contador. Isso garantirá que o processo seja simples e tranquilo para você.</p>
+        <a href="#" class="btn-cta editable" data-field="card_3_button">MIGRAR PARA A RBO</a>
       </article>
 
       <article class="card">
-        <h3>TERCEIRIZAR MEU FINANCEIRO</h3>
-        <p>Com o BPO Financeiro da RBO, você terá uma grande economia e segurança ao ter a sua empresa sendo cuidada por um time financeiro especializado em seu tipo de negócio no mercado digital.</p>
-        <a href="#" class="btn-cta">MIGRAR PARA A RBO</a>
+        <h3 class="editable" data-field="card_4_title">TERCEIRIZAR MEU FINANCEIRO</h3>
+        <p class="editable" data-field="card_4_text">Com o BPO Financeiro da RBO, você terá uma grande economia e segurança ao ter a sua empresa sendo cuidada por um time financeiro especializado em seu tipo de negócio no mercado digital.</p>
+        <a href="#" class="btn-cta editable" data-field="card_4_button">MIGRAR PARA A RBO</a>
       </article>
     </section>
 
@@ -734,173 +811,173 @@
           <img src="./image.png" alt="Logo RBO" />
         </div>
         <div class="experience-content">
-          <p class="experience-text">
+          <p class="experience-text editable" data-field="experience_text">
             Com a RBO você conta com a tradição de 30 anos de mercado com a experiência de uma contabilidade especializada em negócios digitais.
           </p>
         </div>
       </div>
     </section>
 
-    <section class="journey-section">
-      <h2 class="journey-title">Como será a sua Jornada na RBO</h2>
+    <section id="jornada" class="journey-section">
+      <h2 class="journey-title editable" data-field="journey_title">Como será a sua Jornada na RBO</h2>
       <div class="journey-steps">
         <div class="step-item">
           <div class="step-card active">
-            <div class="step-tag blue">ONBOARDING</div>
+            <div class="step-tag blue editable" data-field="step_1_tag">ONBOARDING</div>
             <div class="step-icon blue">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2.5-5H18V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H8.5c-.83 0-1.5.67-1.5 1.5S7.67 9 8.5 9H9v8c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V9h.5c.83 0 1.5-.67 1.5-1.5S19.33 6 18.5 6zM12 4h4v2h-4V4z"/>
               </svg>
             </div>
             <div class="step-content">
-              <h3 class="step-title">Seja Bem-Vindo!</h3>
-              <p class="step-description">Todo novo cliente da RBO passa por um processo de onboarding que inclui: Call de ativação, orientações iniciais e rotina mensal da sua empresa conosco. Isso visa ajudar você a estar preparado(a) para administrar sua empresa de forma correta</p>
+              <h3 class="step-title editable" data-field="step_1_title">Seja Bem-Vindo!</h3>
+              <p class="step-description editable" data-field="step_1_description">Todo novo cliente da RBO passa por um processo de onboarding que inclui: Call de ativação, orientações iniciais e rotina mensal da sua empresa conosco. Isso visa ajudar você a estar preparado(a) para administrar sua empresa de forma correta</p>
             </div>
           </div>
           <div class="step-indicator">
             <div class="step-dot active"></div>
-            <div class="step-label">Primeiro Passo</div>
+            <div class="step-label editable" data-field="step_1_label">Primeiro Passo</div>
           </div>
         </div>
 
         <div class="step-item">
           <div class="step-card">
-            <div class="step-tag purple">SUPORTE</div>
+            <div class="step-tag purple editable" data-field="step_2_tag">SUPORTE</div>
             <div class="step-icon purple">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z"/>
               </svg>
             </div>
             <div class="step-content">
-              <h3 class="step-title">Atendimento!</h3>
-              <p class="step-description">Tanto no onboarding, quanto no atendimento operacional, sua empresa terá acesso ao nosso suporte rápido e prático dentro do horário comercial pelos canais online, onde o grande objetivo é garantir que suas demandas sejam supridas.</p>
+              <h3 class="step-title editable" data-field="step_2_title">Atendimento!</h3>
+              <p class="step-description editable" data-field="step_2_description">Tanto no onboarding, quanto no atendimento operacional, sua empresa terá acesso ao nosso suporte rápido e prático dentro do horário comercial pelos canais online, onde o grande objetivo é garantir que suas demandas sejam supridas.</p>
             </div>
           </div>
           <div class="step-indicator">
             <div class="step-dot"></div>
-            <div class="step-label">Segundo Passo</div>
+            <div class="step-label editable" data-field="step_2_label">Segundo Passo</div>
           </div>
         </div>
 
         <div class="step-item">
           <div class="step-card">
 
-            <div class="step-tag green">CUSTOMER SUCCESS</div>
+            <div class="step-tag green editable" data-field="step_3_tag">CUSTOMER SUCCESS</div>
             <div class="step-icon green">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
               </svg>
             </div>
             <div class="step-content">
-              <h3 class="step-title">Sua experiência</h3>
-              <p class="step-description">Nosso time de sucesso do cliente vai constantemente avaliar seu atendimento e sua satisfação para garantir a melhor experiência em sua jornada com a RBO. Não é à toa que temos umas das melhores taxas de satisfação do mercado contábil.</p>
+              <h3 class="step-title editable" data-field="step_3_title">Sua experiência</h3>
+              <p class="step-description editable" data-field="step_3_description">Nosso time de sucesso do cliente vai constantemente avaliar seu atendimento e sua satisfação para garantir a melhor experiência em sua jornada com a RBO. Não é à toa que temos umas das melhores taxas de satisfação do mercado contábil.</p>
             </div>
           </div>
           <div class="step-indicator">
             <div class="step-dot"></div>
-            <div class="step-label">Terceiro Passo</div>
+            <div class="step-label editable" data-field="step_3_label">Terceiro Passo</div>
           </div>
         </div>
       </div>
     </section>
 
     <section id="blog" class="blog-section">
-      <h2 class="blog-title">Últimas do Blog</h2>
-      <p class="blog-subtitle">Notícias e conteúdos do Rogério para você ficar por dentro.</p>
+      <h2 class="blog-title editable" data-field="blog_title">Últimas do Blog</h2>
+      <p class="blog-subtitle editable" data-field="blog_subtitle">Notícias e conteúdos do Rogério para você ficar por dentro.</p>
       <div class="blog-grid">
         <article class="post-card">
-          <a class="post-media" href="#" title="Ver postagem">
+          <a class="post-media" href="post.html?id=1" title="Ver postagem">
             <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop" alt="Thumb post 1"/>
           </a>
           <div class="post-body">
-            <span class="post-meta">Notícia • 15 Set 2025</span>
-            <h3 class="post-title"><a href="#">Como organizar suas finanças para escalar seu negócio</a></h3>
-            <p class="post-excerpt">Dicas práticas do Rogério sobre fluxo de caixa, previsibilidade e rotinas financeiras.</p>
-            <a class="post-readmore" href="#">Ler mais →</a>
+            <span class="post-meta editable" data-field="blog_post_1_meta">Notícia • 15 Set 2025</span>
+            <h3 class="post-title"><a href="post.html?id=1" class="editable" data-field="blog_post_1_title">Como organizar suas finanças para escalar seu negócio</a></h3>
+            <p class="post-excerpt editable" data-field="blog_post_1_excerpt">Dicas práticas do Rogério sobre fluxo de caixa, previsibilidade e rotinas financeiras.</p>
+            <a class="post-readmore editable" data-field="blog_post_1_readmore" href="post.html?id=1">Ler mais →</a>
           </div>
         </article>
         <article class="post-card">
-          <a class="post-media" href="#" title="Ver postagem">
+          <a class="post-media" href="post.html?id=2" title="Ver postagem">
             <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1200&auto=format&fit=crop" alt="Thumb post 2"/>
           </a>
           <div class="post-body">
-            <span class="post-meta">Blog • 10 Set 2025</span>
-            <h3 class="post-title"><a href="#">Tributação no digital: o que muda em 2025</a></h3>
-            <p class="post-excerpt">Entenda os principais pontos de atenção para infoprodutores, agências e e-commerces.</p>
-            <a class="post-readmore" href="#">Ler mais →</a>
+            <span class="post-meta editable" data-field="blog_post_2_meta">Blog • 10 Set 2025</span>
+            <h3 class="post-title"><a href="post.html?id=2" class="editable" data-field="blog_post_2_title">Tributação no digital: o que muda em 2025</a></h3>
+            <p class="post-excerpt editable" data-field="blog_post_2_excerpt">Entenda os principais pontos de atenção para infoprodutores, agências e e-commerces.</p>
+            <a class="post-readmore editable" data-field="blog_post_2_readmore" href="post.html?id=2">Ler mais →</a>
           </div>
         </article>
         <article class="post-card">
-          <a class="post-media" href="#" title="Ver postagem">
+          <a class="post-media" href="post.html?id=3" title="Ver postagem">
             <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop" alt="Thumb post 3"/>
           </a>
 
 
 
           <div class="post-body">
-            <span class="post-meta">Dica • 02 Set 2025</span>
-            <h3 class="post-title"><a href="#">MEI, Simples ou Lucro Presumido? Escolha certa para o seu caso</a></h3>
-            <p class="post-excerpt">Uma visão direta para ajudar na decisão do melhor enquadramento tributário.</p>
-            <a class="post-readmore" href="#">Ler mais →</a>
+            <span class="post-meta editable" data-field="blog_post_3_meta">Dica • 02 Set 2025</span>
+            <h3 class="post-title"><a href="post.html?id=3" class="editable" data-field="blog_post_3_title">MEI, Simples ou Lucro Presumido? Escolha certa para o seu caso</a></h3>
+            <p class="post-excerpt editable" data-field="blog_post_3_excerpt">Uma visão direta para ajudar na decisão do melhor enquadramento tributário.</p>
+            <a class="post-readmore editable" data-field="blog_post_3_readmore" href="post.html?id=3">Ler mais →</a>
           </div>
         </article>
       </div>
       <div class="blog-actions">
-        <a href="#" class="btn-cta">Ver todas as notícias</a>
+        <a href="blog.html" class="btn-cta editable" data-field="blog_button">Ver todas as notícias</a>
       </div>
     </section>
 
     <section id="faq" class="faq-section">
-      <h2 class="faq-title">Dúvidas frequentes</h2>
-      <p class="faq-subtitle">Algumas perguntas que recebemos por aqui.</p>
+      <h2 class="faq-title editable" data-field="faq_title">Dúvidas frequentes</h2>
+      <p class="faq-subtitle editable" data-field="faq_subtitle">Algumas perguntas que recebemos por aqui.</p>
       <div class="faq-list">
         <details class="faq-item">
-          <summary><span class="faq-icon">?</span> Quais negócios/empresas vocês atendem?</summary>
-          <div class="answer">Atendemos um amplo espectro de empresas provenientes de variados ramos e setores. Além disso, temos planos especiais desenvolvidos para pequenos negócios (ME), que se encontram na fase inicial de suas atividades. Fale com o contador no WhatsApp e abra sua empresa ou troque de contador!</div>
+          <summary><span class="faq-icon">?</span> <span class="editable" data-field="faq_1_question">Quais negócios/empresas vocês atendem?</span></summary>
+          <div class="answer editable" data-field="faq_1_answer">Atendemos um amplo espectro de empresas provenientes de variados ramos e setores. Além disso, temos planos especiais desenvolvidos para pequenos negócios (ME), que se encontram na fase inicial de suas atividades. Fale com o contador no WhatsApp e abra sua empresa ou troque de contador!</div>
         </details>
         <details class="faq-item">
-          <summary><span class="faq-icon">?</span> Vocês atendem MEI (Microempreendedor Individual)?</summary>
-          <div class="answer">Sim, atendemos MEI. Inclusive possuímos uma assessoria contábil e financeira diferenciada e com preço reduzido focado para o atendimento de MEIs. Solicite agora a realização da Declaração Anual do MEI.</div>
+          <summary><span class="faq-icon">?</span> <span class="editable" data-field="faq_2_question">Vocês atendem MEI (Microempreendedor Individual)?</span></summary>
+          <div class="answer editable" data-field="faq_2_answer">Sim, atendemos MEI. Inclusive possuímos uma assessoria contábil e financeira diferenciada e com preço reduzido focado para o atendimento de MEIs. Solicite agora a realização da Declaração Anual do MEI.</div>
         </details>
         <details class="faq-item">
-          <summary><span class="faq-icon">?</span> Vocês atendem Micro e Pequenas empresas(ME)?</summary>
-          <div class="answer">Sim, somos especializados em atender Micro e Pequenas Empresas de diversos ramos. Especialmente, empresas que estão iniciando ou migrando de MEI para ME.</div>
+          <summary><span class="faq-icon">?</span> <span class="editable" data-field="faq_3_question">Vocês atendem Micro e Pequenas empresas(ME)?</span></summary>
+          <div class="answer editable" data-field="faq_3_answer">Sim, somos especializados em atender Micro e Pequenas Empresas de diversos ramos. Especialmente, empresas que estão iniciando ou migrando de MEI para ME.</div>
         </details>
         <details class="faq-item">
-          <summary><span class="faq-icon">?</span> Quais os tipos de serviços vocês oferecem?</summary>
-          <div class="answer">Os principais serviços que oferecemos na nossa empresa são: Abertura de empresas, Assessoria Contábil, Assessoria Fiscal, Assessoria Trabalhista, Consultoria Financeira, Fechamento de empresas, Empregador Doméstico (E-social) e Imposto de Renda Pessoa Física (IRPF). Nós oferecemos pacotes com diferentes serviços. Quer saber mais? <a href="#" style="color:var(--orange);font-weight:800;text-decoration:none">Clique aqui</a> e fale com contador!</div>
+          <summary><span class="faq-icon">?</span> <span class="editable" data-field="faq_4_question">Quais os tipos de serviços vocês oferecem?</span></summary>
+          <div class="answer editable" data-field="faq_4_answer">Os principais serviços que oferecemos na nossa empresa são: Abertura de empresas, Assessoria Contábil, Assessoria Fiscal, Assessoria Trabalhista, Consultoria Financeira, Fechamento de empresas, Empregador Doméstico (E-social) e Imposto de Renda Pessoa Física (IRPF). Nós oferecemos pacotes com diferentes serviços. Quer saber mais? <a href="#" style="color:var(--orange);font-weight:800;text-decoration:none">Clique aqui</a> e fale com contador!</div>
         </details>
         <details class="faq-item">
-          <summary><span class="faq-icon">?</span> Como é o atendimento da RBO Contabilidade?</summary>
-          <div class="answer">Na RBO Contabilidade você fala sempre direto com o Contador. O método de contato você pode escolher: WhatsApp, Telefone, email, chamada de vídeo e pessoalmente (é preciso agendamento prévio).</div>
+          <summary><span class="faq-icon">?</span> <span class="editable" data-field="faq_5_question">Como é o atendimento da RBO Contabilidade?</span></summary>
+          <div class="answer editable" data-field="faq_5_answer">Na RBO Contabilidade você fala sempre direto com o Contador. O método de contato você pode escolher: WhatsApp, Telefone, email, chamada de vídeo e pessoalmente (é preciso agendamento prévio).</div>
         </details>
         <details class="faq-item">
-          <summary><span class="faq-icon">?</span> Já tenho um negócio, mas sou informal (sem CNPJ), qual risco eu corro?</summary>
-          <div class="answer">São muitas as desvantagens da informalidade. Vou citar algumas para você: 1) Não poder emitir nota fiscal, sendo que cada vez mais consumidores exigem a nota fiscal; 2) Fica exposto a sofrer fiscalizações do fisco e ter que pagar altíssimas multas; 3) Não poder assinar a carteira de funcionários e, assim, podendo sofrer ações trabalhistas; 4) Dificuldade para conseguir empréstimos bancários; 5) Não há proteção aos bens pessoais do empresário. Ou seja, caso seja multado pelo fisco ou processado por um funcionário, o empresário corre o risco de perder seus bens pessoais. Quer se proteger e regularizar o seu negócio? Fale comigo!</div>
+          <summary><span class="faq-icon">?</span> <span class="editable" data-field="faq_6_question">Já tenho um negócio, mas sou informal (sem CNPJ), qual risco eu corro?</span></summary>
+          <div class="answer editable" data-field="faq_6_answer">São muitas as desvantagens da informalidade. Vou citar algumas para você: 1) Não poder emitir nota fiscal, sendo que cada vez mais consumidores exigem a nota fiscal; 2) Fica exposto a sofrer fiscalizações do fisco e ter que pagar altíssimas multas; 3) Não poder assinar a carteira de funcionários e, assim, podendo sofrer ações trabalhistas; 4) Dificuldade para conseguir empréstimos bancários; 5) Não há proteção aos bens pessoais do empresário. Ou seja, caso seja multado pelo fisco ou processado por um funcionário, o empresário corre o risco de perder seus bens pessoais. Quer se proteger e regularizar o seu negócio? Fale comigo!</div>
         </details>
         <details class="faq-item">
-          <summary><span class="faq-icon">?</span> Como faço para abrir uma empresa?</summary>
-          <div class="answer">Caso queira abrir uma empresa, entre em contato conosco que nós cuidamos de toda a burocracia. Realizamos todos os processos necessários para que você esteja 100% legalizado. Emitimos seu CNPJ, seu Contrato Social, seu Alvará de funcionamento, sua inscrição municipal/estadual e o seu registro no Simples Nacional.</div>
+          <summary><span class="faq-icon">?</span> <span class="editable" data-field="faq_7_question">Como faço para abrir uma empresa?</span></summary>
+          <div class="answer editable" data-field="faq_7_answer">Caso queira abrir uma empresa, entre em contato conosco que nós cuidamos de toda a burocracia. Realizamos todos os processos necessários para que você esteja 100% legalizado. Emitimos seu CNPJ, seu Contrato Social, seu Alvará de funcionamento, sua inscrição municipal/estadual e o seu registro no Simples Nacional.</div>
         </details>
         <details class="faq-item">
-          <summary><span class="faq-icon">?</span> Quanto custa abrir uma empresa (tira o CNPJ)?</summary>
-          <div class="answer">O custo de abertura de uma empresa varia bastante dependendo do porte da empresa, da área de atuação, da cidade e do estado. Em Teresina, o custo total de abertura de uma empresa de ME com registro na Junta Comercial varia entre R$1.500,00 a R$2.500,00. Esse valor inclui: mão de obra do contador, taxa da JUCEPI, Certificado Digital e as taxas governamentais mais comuns. Todavia, dependendo da área de atuação do teu negócio outras licenças podem ser obrigatórias. Solicite um orçamento!</div>
+          <summary><span class="faq-icon">?</span> <span class="editable" data-field="faq_8_question">Quanto custa abrir uma empresa (tira o CNPJ)?</span></summary>
+          <div class="answer editable" data-field="faq_8_answer">O custo de abertura de uma empresa varia bastante dependendo do porte da empresa, da área de atuação, da cidade e do estado. Em Teresina, o custo total de abertura de uma empresa de ME com registro na Junta Comercial varia entre R$1.500,00 a R$2.500,00. Esse valor inclui: mão de obra do contador, taxa da JUCEPI, Certificado Digital e as taxas governamentais mais comuns. Todavia, dependendo da área de atuação do teu negócio outras licenças podem ser obrigatórias. Solicite um orçamento!</div>
         </details>
         <details class="faq-item">
-          <summary><span class="faq-icon">?</span> Vocês cobram 13º?</summary>
-          <div class="answer">Não, não cobramos. Os clientes pagam apenas 12 mensalidades anuais. Abra sua empresa ou migre para nossa contabilidade e pague apenas pelo que você precisa para o seu negócio.</div>
+          <summary><span class="faq-icon">?</span> <span class="editable" data-field="faq_9_question">Vocês cobram 13º?</span></summary>
+          <div class="answer editable" data-field="faq_9_answer">Não, não cobramos. Os clientes pagam apenas 12 mensalidades anuais. Abra sua empresa ou migre para nossa contabilidade e pague apenas pelo que você precisa para o seu negócio.</div>
         </details>
         <details class="faq-item">
-          <summary><span class="faq-icon">?</span> Quais os principais problemas financeiros identificados nas pequenas empresas?</summary>
-          <div class="answer">Os principais problemas financeiros identificados em pequenas empresas são: 1) Sócios desconhecem os resultados da empresa; 2) Estagnação financeira; Mistura de despesas pessoais com despesas da empresa; 3) Não possui sistema financeiro; 4) Processo incorreto de emissão de notas fiscais; 5) Possível recolhimento a maior de tributos. Aqui, na RBO Contabilidade podemos ajudar seu negócio a corrigir todos esses problemas. Fale com o contador e veja como!</div>
+          <summary><span class="faq-icon">?</span> <span class="editable" data-field="faq_10_question">Quais os principais problemas financeiros identificados nas pequenas empresas?</span></summary>
+          <div class="answer editable" data-field="faq_10_answer">Os principais problemas financeiros identificados em pequenas empresas são: 1) Sócios desconhecem os resultados da empresa; 2) Estagnação financeira; Mistura de despesas pessoais com despesas da empresa; 3) Não possui sistema financeiro; 4) Processo incorreto de emissão de notas fiscais; 5) Possível recolhimento a maior de tributos. Aqui, na RBO Contabilidade podemos ajudar seu negócio a corrigir todos esses problemas. Fale com o contador e veja como!</div>
         </details>
         <details class="faq-item">
-          <summary><span class="faq-icon">?</span> Vocês podem ajudar na gestão financeira da minha empresa?</summary>
-          <div class="answer">Sim, possuímos uma solução para empresas que precisam de uma melhor gestão financeira.</div>
+          <summary><span class="faq-icon">?</span> <span class="editable" data-field="faq_11_question">Vocês podem ajudar na gestão financeira da minha empresa?</span></summary>
+          <div class="answer editable" data-field="faq_11_answer">Sim, possuímos uma solução para empresas que precisam de uma melhor gestão financeira.</div>
         </details>
         <details class="faq-item">
-          <summary><span class="faq-icon">?</span> Quero fazer minha Declaração de Imposto de Renda anual Pessoa física, o que preciso?</summary>
-          <div class="answer">O processo é bem simples, tudo será feito pelo whatsapp. Vou te enviar a lista com toda a documentação necessária e você me envia tudo por foto ou escaneado direto no whatsapp ou email (se preferir). Você faz o pagamento via pix e te envio a declaração e o recibo de entrega.</div>
+          <summary><span class="faq-icon">?</span> <span class="editable" data-field="faq_12_question">Quero fazer minha Declaração de Imposto de Renda anual Pessoa física, o que preciso?</span></summary>
+          <div class="answer editable" data-field="faq_12_answer">O processo é bem simples, tudo será feito pelo whatsapp. Vou te enviar a lista com toda a documentação necessária e você me envia tudo por foto ou escaneado direto no whatsapp ou email (se preferir). Você faz o pagamento via pix e te envio a declaração e o recibo de entrega.</div>
         </details>
       </div>
     </section>
@@ -913,6 +990,298 @@
   <a class="whats" href="#" title="Fale no WhatsApp">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5C3 6.81 6.81 3 11.5 3S20 6.81 20 11.5 16.19 20 11.5 20c-1.26 0-2.45-.27-3.52-.76L3 21l1.76-4.98A8.47 8.47 0 0 1 3 11.5z"/><path d="M8.5 9.5c.5 1.5 2.5 3.5 4 4l1.5-1.5"/></svg>
   </a>
+
+  <script>
+    // Sistema de Admin
+    let isAdminMode = false;
+    let contentChanges = {};
+
+    // Credenciais de admin
+    const ADMIN_CREDENTIALS = {
+      email: 'rogerio@rbocontabilidade.com.br',
+      password: 'admin123'
+    };
+
+    // Gerenciamento de rotas
+    function handleRoute() {
+      const hash = window.location.hash;
+
+      if (hash === '#admin') {
+        showAdminLogin();
+      } else {
+        showLanding();
+      }
+    }
+
+    // Mostrar página de login do admin
+    function showAdminLogin() {
+      // Se já está logado, vai direto para o modo admin
+      if (localStorage.getItem('adminLoggedIn') === 'true') {
+        enableAdminMode();
+        return;
+      }
+
+      document.getElementById('adminLoginPage').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Mostrar landing page
+    function showLanding() {
+      document.getElementById('adminLoginPage').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+
+      // Atualizar URL sem recarregar
+      if (window.location.hash === '#admin') {
+        history.pushState({}, '', window.location.pathname);
+      }
+
+      // Se estava logado, manter modo admin
+      if (localStorage.getItem('adminLoggedIn') === 'true') {
+        enableAdminMode();
+      }
+    }
+
+    // Verificar se está em modo admin
+    function checkAdminMode() {
+      const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+
+      if (isLoggedIn) {
+        enableAdminMode();
+      }
+    }
+
+    // Ativar modo admin
+    function enableAdminMode() {
+      isAdminMode = true;
+      document.body.classList.add('admin-mode');
+      document.getElementById('adminBar').classList.remove('hidden');
+      document.getElementById('adminEmail').textContent = localStorage.getItem('adminEmail');
+
+      // Carregar conteúdo salvo
+      loadSavedContent();
+
+      // Tornar elementos editáveis
+      makeElementsEditable();
+    }
+
+    // Carregar conteúdo salvo do localStorage
+    function loadSavedContent() {
+      const savedContent = localStorage.getItem('siteContent');
+      if (savedContent) {
+        try {
+          const content = JSON.parse(savedContent);
+          Object.keys(content).forEach(field => {
+            const element = document.querySelector(`[data-field="${field}"]`);
+            if (element) {
+              element.textContent = content[field];
+              console.log(`Carregado: ${field} = ${content[field]}`);
+            }
+          });
+          console.log('Conteúdo carregado do localStorage:', content);
+        } catch (e) {
+          console.error('Erro ao carregar conteúdo salvo:', e);
+        }
+      } else {
+        console.log('Nenhum conteúdo salvo encontrado no localStorage');
+      }
+    }
+
+    // Tornar elementos editáveis
+    function makeElementsEditable() {
+      const editableElements = document.querySelectorAll('.editable');
+
+      editableElements.forEach(element => {
+        // Adicionar overlay de edição
+        const overlay = document.createElement('div');
+        overlay.className = 'edit-overlay';
+        overlay.textContent = 'Clique para editar';
+        element.style.position = 'relative';
+
+        element.addEventListener('mouseenter', () => {
+          // Só mostrar overlay se estiver em modo admin
+          if (isAdminMode && !element.classList.contains('editing') && !element.querySelector('.edit-overlay')) {
+            element.appendChild(overlay.cloneNode(true));
+          }
+        });
+
+        element.addEventListener('mouseleave', () => {
+          const currentOverlay = element.querySelector('.edit-overlay');
+          if (currentOverlay) {
+            currentOverlay.remove();
+          }
+        });
+
+        // Adicionar funcionalidade de edição
+        element.addEventListener('click', (e) => {
+          // Só permitir edição se estiver em modo admin
+          if (isAdminMode) {
+            e.preventDefault();
+            e.stopPropagation();
+            startEditing(element);
+          }
+        });
+      });
+    }
+
+    // Iniciar edição de um elemento
+    function startEditing(element) {
+      if (element.classList.contains('editing')) return;
+
+      // Remover overlay se existir
+      const overlay = element.querySelector('.edit-overlay');
+      if (overlay) {
+        overlay.remove();
+      }
+
+      element.classList.add('editing');
+
+      // Pegar apenas o texto, sem elementos filhos
+      const originalText = element.childNodes[0] ? element.childNodes[0].textContent || element.textContent : element.textContent;
+      const field = element.getAttribute('data-field');
+
+      // Criar input de edição
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = originalText;
+      input.style.cssText = `
+        width: 100%;
+        padding: 4px 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: inherit;
+        font-family: inherit;
+        font-weight: inherit;
+        color: inherit;
+        background: white;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+        outline: none;
+      `;
+
+      // Substituir conteúdo pelo input
+      element.innerHTML = '';
+      element.appendChild(input);
+      input.focus();
+      input.select();
+
+      // Função para finalizar edição
+      function finishEditing(save = true) {
+        if (save) {
+          const newText = input.value.trim();
+          if (newText !== originalText) {
+            contentChanges[field] = newText;
+          }
+          element.innerHTML = '';
+          element.textContent = newText || originalText;
+        } else {
+          element.innerHTML = '';
+          element.textContent = originalText;
+        }
+
+        element.classList.remove('editing');
+      }
+
+      // Event listeners
+      input.addEventListener('blur', () => finishEditing(true));
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          finishEditing(true);
+        } else if (e.key === 'Escape') {
+          finishEditing(false);
+        }
+      });
+    }
+
+    // Salvar alterações
+    function saveChanges() {
+      if (Object.keys(contentChanges).length === 0) {
+        alert('Nenhuma alteração para salvar.');
+        return;
+      }
+
+      // Carregar conteúdo existente
+      const existingContent = JSON.parse(localStorage.getItem('siteContent') || '{}');
+
+      // Mesclar com novas alterações
+      const updatedContent = { ...existingContent, ...contentChanges };
+
+      // Salvar no localStorage
+      localStorage.setItem('siteContent', JSON.stringify(updatedContent));
+
+      console.log('Conteúdo salvo:', updatedContent);
+
+      // Limpar alterações pendentes
+      contentChanges = {};
+
+      alert('Alterações salvas com sucesso!');
+    }
+
+    // Limpar cache
+    function clearCache() {
+      if (confirm('Tem certeza que deseja limpar todas as alterações salvas? Isso irá restaurar o conteúdo original.')) {
+        localStorage.removeItem('siteContent');
+        location.reload();
+      }
+    }
+
+    // Logout
+    function logout() {
+      if (confirm('Tem certeza que deseja sair do modo administrador?')) {
+        localStorage.removeItem('adminLoggedIn');
+        localStorage.removeItem('adminEmail');
+        document.body.classList.remove('admin-mode');
+        document.getElementById('adminBar').classList.add('hidden');
+        isAdminMode = false;
+        showLanding();
+      }
+    }
+
+    // Login form handler
+    document.addEventListener('DOMContentLoaded', function() {
+      // Carregar conteúdo salvo sempre que a página carregar
+      loadSavedContent();
+
+      // Gerenciar rotas
+      handleRoute();
+
+      // Event listener para mudanças na URL
+      window.addEventListener('popstate', handleRoute);
+      window.addEventListener('hashchange', handleRoute);
+
+      // Form de login
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const messageDiv = document.getElementById('loginMessage');
+
+        if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
+          // Salvar sessão
+          localStorage.setItem('adminLoggedIn', 'true');
+          localStorage.setItem('adminEmail', email);
+
+          messageDiv.innerHTML = '<div class="login-success">Login realizado com sucesso!</div>';
+
+          setTimeout(() => {
+            enableAdminMode();
+          }, 1000);
+        } else {
+          messageDiv.innerHTML = '<div class="login-error">E-mail ou senha incorretos.</div>';
+        }
+      });
+
+      // Verificar se já está logado
+      checkAdminMode();
+    });
+
+    // Interceptar navegação para #admin
+    document.addEventListener('click', function(e) {
+      if (e.target.tagName === 'A' && e.target.getAttribute('href') === '#admin') {
+        e.preventDefault();
+        window.location.hash = 'admin';
+      }
+    });
+  </script>
 </body>
 </html>
 

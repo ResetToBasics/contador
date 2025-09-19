@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - RBO Contabilidade</title>
+  <link rel="icon" href="./image.png" type="image/png" />
+  <link rel="shortcut icon" href="./image.png" type="image/png" />
+  
+  <style>
+    :root {
+      --orange: #0077ff;
+      --purple: #6366f1;
+      --card: #ffffff;
+      --bg: #f8fafc;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 32px;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    /* Blog Content */
+    .blog-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .blog-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .blog-title {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .blog-subtitle {
+      font-size: 20px;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--orange);
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 40px;
+      transition: opacity 0.3s;
+    }
+
+    .back-link:hover {
+      opacity: 0.8;
+    }
+
+    /* Blog Grid */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+
+    .post-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .post-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    }
+
+    .post-media {
+      display: block;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .post-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .post-card:hover .post-media img {
+      transform: scale(1.05);
+    }
+
+    .post-body {
+      padding: 24px;
+    }
+
+    .post-meta {
+      color: var(--text-light);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .post-title {
+      margin-bottom: 12px;
+    }
+
+    .post-title a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+      transition: color 0.3s;
+    }
+
+    .post-title a:hover {
+      color: var(--orange);
+    }
+
+    .post-excerpt {
+      color: var(--text-light);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .post-readmore {
+      color: var(--orange);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: opacity 0.3s;
+    }
+
+    .post-readmore:hover {
+      opacity: 0.8;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .blog-container {
+        margin: 20px auto;
+        padding: 0 15px;
+      }
+
+      .blog-title {
+        font-size: 32px;
+      }
+
+      .blog-subtitle {
+        font-size: 18px;
+      }
+
+      .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <img src="./image.png" alt="RBO Contabilidade" />
+      </div>
+      
+      <nav class="nav" aria-label="Principal">
+        <a href="index.html">Início</a>
+        <a href="index.html#servicos">Serviços</a>
+        <a href="index.html#jornada">Jornada</a>
+        <a href="index.html#blog">Blog</a>
+        <a href="index.html#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Blog Content -->
+  <main class="blog-container">
+    <a href="index.html#blog" class="back-link">
+      ← Voltar para o site
+    </a>
+
+    <div class="blog-header">
+      <h1 class="blog-title">Blog RBO Contabilidade</h1>
+      <p class="blog-subtitle">Notícias, dicas e conteúdos do Rogério para você ficar por dentro do mundo contábil e financeiro.</p>
+    </div>
+
+    <div class="blog-grid">
+      <article class="post-card">
+        <a class="post-media" href="post.html?id=1" title="Ver postagem">
+          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop" alt="Como organizar suas finanças"/>
+        </a>
+        <div class="post-body">
+          <span class="post-meta">Notícia • 15 Set 2025</span>
+          <h3 class="post-title"><a href="post.html?id=1">Como organizar suas finanças para escalar seu negócio</a></h3>
+          <p class="post-excerpt">Dicas práticas do Rogério sobre fluxo de caixa, previsibilidade e rotinas financeiras para fazer seu negócio crescer de forma sustentável.</p>
+          <a class="post-readmore" href="post.html?id=1">Ler mais →</a>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <a class="post-media" href="post.html?id=2" title="Ver postagem">
+          <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1200&auto=format&fit=crop" alt="Tributação digital"/>
+        </a>
+        <div class="post-body">
+          <span class="post-meta">Blog • 10 Set 2025</span>
+          <h3 class="post-title"><a href="post.html?id=2">Tributação no digital: o que muda em 2025</a></h3>
+          <p class="post-excerpt">Entenda os principais pontos de atenção para infoprodutores, agências e e-commerces com as mudanças tributárias.</p>
+          <a class="post-readmore" href="post.html?id=2">Ler mais →</a>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <a class="post-media" href="post.html?id=3" title="Ver postagem">
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop" alt="MEI vs Simples vs Lucro Presumido"/>
+        </a>
+        <div class="post-body">
+          <span class="post-meta">Dica • 02 Set 2025</span>
+          <h3 class="post-title"><a href="post.html?id=3">MEI, Simples ou Lucro Presumido? Escolha certa para o seu caso</a></h3>
+          <p class="post-excerpt">Uma visão direta para ajudar na decisão do melhor enquadramento tributário para o seu tipo de negócio.</p>
+          <a class="post-readmore" href="post.html?id=3">Ler mais →</a>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <a class="post-media" href="post.html?id=4" title="Ver postagem">
+          <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1200&auto=format&fit=crop" alt="Planejamento tributário"/>
+        </a>
+        <div class="post-body">
+          <span class="post-meta">Dica • 28 Ago 2025</span>
+          <h3 class="post-title"><a href="post.html?id=4">Planejamento tributário: como economizar legalmente</a></h3>
+          <p class="post-excerpt">Estratégias legais para reduzir a carga tributária da sua empresa sem correr riscos com o fisco.</p>
+          <a class="post-readmore" href="post.html?id=4">Ler mais →</a>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <a class="post-media" href="post.html?id=5" title="Ver postagem">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200&auto=format&fit=crop" alt="Abertura de empresa"/>
+        </a>
+        <div class="post-body">
+          <span class="post-meta">Guia • 25 Ago 2025</span>
+          <h3 class="post-title"><a href="post.html?id=5">Passo a passo para abrir sua empresa em 2025</a></h3>
+          <p class="post-excerpt">Guia completo com todos os documentos, processos e custos para formalizar seu negócio da forma correta.</p>
+          <a class="post-readmore" href="post.html?id=5">Ler mais →</a>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <a class="post-media" href="post.html?id=6" title="Ver postagem">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop" alt="Gestão financeira"/>
+        </a>
+        <div class="post-body">
+          <span class="post-meta">Blog • 20 Ago 2025</span>
+          <h3 class="post-title"><a href="post.html?id=6">5 erros financeiros que podem quebrar sua empresa</a></h3>
+          <p class="post-excerpt">Conheça os principais erros que empresários cometem na gestão financeira e como evitá-los.</p>
+          <a class="post-readmore" href="post.html?id=6">Ler mais →</a>
+        </div>
+      </article>
+    </div>
+  </main>
+</body>
+</html>

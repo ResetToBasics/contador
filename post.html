@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">Post - RBO Contabilidade</title>
+  <link rel="icon" href="./image.png" type="image/png" />
+  <link rel="shortcut icon" href="./image.png" type="image/png" />
+  
+  <style>
+    :root {
+      --orange: #0077ff;
+      --purple: #6366f1;
+      --card: #ffffff;
+      --bg: #f8fafc;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 32px;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    /* Post Content */
+    .post-container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .post-header {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    .post-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    .post-meta {
+      padding: 20px 30px 10px;
+      color: var(--text-light);
+      font-size: 14px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .post-title {
+      padding: 0 30px 20px;
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text);
+    }
+
+    .post-content {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 40px;
+      margin-bottom: 40px;
+    }
+
+    .post-content h2 {
+      font-size: 24px;
+      margin: 30px 0 15px;
+      color: var(--text);
+    }
+
+    .post-content h3 {
+      font-size: 20px;
+      margin: 25px 0 12px;
+      color: var(--text);
+    }
+
+    .post-content p {
+      margin-bottom: 20px;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .post-content ul, .post-content ol {
+      margin: 20px 0;
+      padding-left: 30px;
+    }
+
+    .post-content li {
+      margin-bottom: 8px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--orange);
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 20px;
+      transition: opacity 0.3s;
+    }
+
+    .back-link:hover {
+      opacity: 0.8;
+    }
+
+    /* Admin Mode */
+    .admin-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #2c3e50;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      font-size: 14px;
+    }
+
+    .admin-bar.hidden {
+      display: none;
+    }
+
+    .admin-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .admin-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .admin-btn:hover {
+      background: #2980b9;
+    }
+
+    .admin-btn.logout {
+      background: #e74c3c;
+    }
+
+    .admin-btn.logout:hover {
+      background: #c0392b;
+    }
+
+    .editable {
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    body.admin-mode .editable {
+      cursor: pointer;
+    }
+
+    body.admin-mode .editable:hover {
+      background: rgba(52, 152, 219, 0.1);
+      outline: 2px dashed #3498db;
+    }
+
+    .editable.editing {
+      background: transparent;
+      outline: none;
+    }
+
+    .edit-overlay {
+      position: absolute;
+      top: -30px;
+      right: 0;
+      background: #3498db;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      pointer-events: none;
+    }
+
+    body.admin-mode {
+      padding-top: 50px;
+    }
+
+    body.admin-mode .header {
+      top: 50px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .post-container {
+        margin: 20px auto;
+        padding: 0 15px;
+      }
+
+      .post-title {
+        font-size: 24px;
+        padding: 0 20px 20px;
+      }
+
+      .post-content {
+        padding: 25px 20px;
+      }
+
+      .nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Admin Bar (hidden by default) -->
+  <div id="adminBar" class="admin-bar hidden">
+    <div class="admin-info">
+      <span>🔧 Modo Administrador - Post</span>
+      <span id="adminEmail"></span>
+    </div>
+    <div class="admin-actions">
+      <button class="admin-btn" onclick="saveChanges()">💾 Salvar Alterações</button>
+      <button class="admin-btn" onclick="clearCache()" style="background:#f39c12">🗑️ Limpar Cache</button>
+      <button class="admin-btn logout" onclick="logout()">🚪 Sair</button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <img src="./image.png" alt="RBO Contabilidade" />
+      </div>
+      
+      <nav class="nav" aria-label="Principal">
+        <a href="index.html">Início</a>
+        <a href="index.html#servicos">Serviços</a>
+        <a href="index.html#jornada">Jornada</a>
+        <a href="index.html#blog">Blog</a>
+        <a href="index.html#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Post Content -->
+  <main class="post-container">
+    <a href="index.html#blog" class="back-link editable" data-field="back_link_text" id="backLinkText">
+      ← Voltar para o blog
+    </a>
+
+    <article class="post-header">
+      <img id="postImage" class="post-image editable" data-field="post_image" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop" alt="Imagem do post" />
+      
+      <div class="post-meta">
+        <span class="editable" data-field="post_category" id="postCategory">Notícia</span>
+        <span>•</span>
+        <span class="editable" data-field="post_date" id="postDate">15 Set 2025</span>
+        <span>•</span>
+        <span class="editable" data-field="post_author" id="postAuthor">Rogério Contador</span>
+      </div>
+      
+      <h1 class="post-title editable" data-field="post_title" id="postTitle">Como organizar suas finanças para escalar seu negócio</h1>
+    </article>
+
+    <div class="post-content">
+      <p class="editable" data-field="post_intro" id="postIntro">Organizar as finanças é fundamental para qualquer empresa que deseja crescer de forma sustentável. Neste artigo, vou compartilhar dicas práticas que uso há mais de 30 anos ajudando empresários a estruturar seus negócios.</p>
+
+      <h2 class="editable" data-field="post_h2_1" id="postH2_1">1. Separe as finanças pessoais das empresariais</h2>
+      <p class="editable" data-field="post_p1" id="postP1">Este é o primeiro e mais importante passo. Muitos empresários cometem o erro de misturar as contas pessoais com as da empresa, o que dificulta o controle e pode gerar problemas fiscais.</p>
+
+      <h2 class="editable" data-field="post_h2_2" id="postH2_2">2. Implemente um fluxo de caixa eficiente</h2>
+      <p class="editable" data-field="post_p2" id="postP2">O fluxo de caixa é a ferramenta mais importante para acompanhar a saúde financeira da sua empresa. Registre todas as entradas e saídas, projete cenários futuros e tome decisões baseadas em dados reais.</p>
+
+      <h2 class="editable" data-field="post_h2_3" id="postH2_3">3. Tenha uma reserva de emergência</h2>
+      <p class="editable" data-field="post_p3" id="postP3">Mantenha sempre uma reserva equivalente a pelo menos 3 meses de despesas operacionais. Isso garante que sua empresa possa enfrentar imprevistos sem comprometer as operações.</p>
+
+      <h2 class="editable" data-field="post_h2_4" id="postH2_4">4. Monitore indicadores financeiros</h2>
+      <p class="editable" data-field="post_p4" id="postP4">Acompanhe métricas como margem de lucro, ticket médio, custo de aquisição de clientes e tempo de retorno do investimento. Esses indicadores ajudam a identificar oportunidades de melhoria.</p>
+
+      <h2 class="editable" data-field="post_h2_5" id="postH2_5">5. Conte com apoio profissional</h2>
+      <p class="editable" data-field="post_p5" id="postP5">Um contador especializado pode fazer toda a diferença na organização financeira da sua empresa. Na RBO Contabilidade, oferecemos consultoria financeira personalizada para ajudar seu negócio a crescer de forma estruturada.</p>
+
+      <p class="editable" data-field="post_conclusion" id="postConclusion">Implementar essas práticas pode parecer desafiador no início, mas os resultados compensam. Uma gestão financeira organizada é a base para o crescimento sustentável de qualquer negócio.</p>
+    </div>
+  </main>
+
+  <script>
+    // Sistema de Admin (similar ao index.html)
+    let isAdminMode = false;
+    let contentChanges = {};
+    
+    // Credenciais de admin
+    const ADMIN_CREDENTIALS = {
+      email: 'rogerio@rbocontabilidade.com.br',
+      password: 'admin123'
+    };
+
+    // Verificar se está em modo admin
+    function checkAdminMode() {
+      const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+      
+      if (isLoggedIn) {
+        enableAdminMode();
+      }
+    }
+
+    // Ativar modo admin
+    function enableAdminMode() {
+      isAdminMode = true;
+      document.body.classList.add('admin-mode');
+      document.getElementById('adminBar').classList.remove('hidden');
+      document.getElementById('adminEmail').textContent = localStorage.getItem('adminEmail');
+      
+      // Carregar conteúdo salvo
+      loadSavedContent();
+      
+      // Tornar elementos editáveis
+      makeElementsEditable();
+    }
+
+    // Carregar conteúdo salvo do localStorage
+    function loadSavedContent() {
+      const savedContent = localStorage.getItem('postContent');
+      if (savedContent) {
+        try {
+          const content = JSON.parse(savedContent);
+          Object.keys(content).forEach(field => {
+            const element = document.querySelector(`[data-field="${field}"]`);
+            if (element) {
+              // Tratamento especial para imagens
+              if (element.tagName === 'IMG') {
+                element.src = content[field];
+              } else {
+                element.textContent = content[field];
+              }
+            }
+          });
+          
+          // Atualizar título da página
+          if (content.post_title) {
+            document.getElementById('pageTitle').textContent = content.post_title + ' - RBO Contabilidade';
+          }
+          
+          console.log('Conteúdo do post carregado:', content);
+        } catch (e) {
+          console.error('Erro ao carregar conteúdo do post:', e);
+        }
+      }
+    }
+
+    // Tornar elementos editáveis (mesmo sistema do index.html)
+    function makeElementsEditable() {
+      const editableElements = document.querySelectorAll('.editable');
+      
+      editableElements.forEach(element => {
+        const overlay = document.createElement('div');
+        overlay.className = 'edit-overlay';
+        overlay.textContent = 'Clique para editar';
+        element.style.position = 'relative';
+        
+        element.addEventListener('mouseenter', () => {
+          // Só mostrar overlay se estiver em modo admin
+          if (isAdminMode && !element.classList.contains('editing') && !element.querySelector('.edit-overlay')) {
+            element.appendChild(overlay.cloneNode(true));
+          }
+        });
+        
+        element.addEventListener('mouseleave', () => {
+          const currentOverlay = element.querySelector('.edit-overlay');
+          if (currentOverlay) {
+            currentOverlay.remove();
+          }
+        });
+        
+        element.addEventListener('click', (e) => {
+          // Só permitir edição se estiver em modo admin
+          if (isAdminMode) {
+            e.preventDefault();
+            e.stopPropagation();
+            startEditing(element);
+          }
+        });
+      });
+    }
+
+    // Iniciar edição de um elemento
+    function startEditing(element) {
+      if (element.classList.contains('editing')) return;
+
+      const overlay = element.querySelector('.edit-overlay');
+      if (overlay) {
+        overlay.remove();
+      }
+
+      element.classList.add('editing');
+
+      const field = element.getAttribute('data-field');
+
+      // Tratamento especial para imagens
+      if (element.tagName === 'IMG') {
+        const originalSrc = element.src;
+        const newSrc = prompt('Digite a nova URL da imagem:', originalSrc);
+
+        if (newSrc && newSrc !== originalSrc) {
+          element.src = newSrc;
+          contentChanges[field] = newSrc;
+        }
+
+        element.classList.remove('editing');
+        return;
+      }
+
+      const originalText = element.childNodes[0] ? element.childNodes[0].textContent || element.textContent : element.textContent;
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = originalText;
+      input.style.cssText = `
+        width: 100%;
+        padding: 4px 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: inherit;
+        font-family: inherit;
+        font-weight: inherit;
+        color: inherit;
+        background: white;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+        outline: none;
+      `;
+
+      element.innerHTML = '';
+      element.appendChild(input);
+      input.focus();
+      input.select();
+      
+      function finishEditing(save = true) {
+        if (save) {
+          const newText = input.value.trim();
+          if (newText !== originalText) {
+            contentChanges[field] = newText;
+          }
+          element.innerHTML = '';
+          element.textContent = newText || originalText;
+          
+          // Atualizar título da página se for o título do post
+          if (field === 'post_title') {
+            document.getElementById('pageTitle').textContent = (newText || originalText) + ' - RBO Contabilidade';
+          }
+        } else {
+          element.innerHTML = '';
+          element.textContent = originalText;
+        }
+        
+        element.classList.remove('editing');
+      }
+      
+      input.addEventListener('blur', () => finishEditing(true));
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          finishEditing(true);
+        } else if (e.key === 'Escape') {
+          finishEditing(false);
+        }
+      });
+    }
+
+    // Salvar alterações
+    function saveChanges() {
+      if (Object.keys(contentChanges).length === 0) {
+        alert('Nenhuma alteração para salvar.');
+        return;
+      }
+      
+      const existingContent = JSON.parse(localStorage.getItem('postContent') || '{}');
+      const updatedContent = { ...existingContent, ...contentChanges };
+      
+      localStorage.setItem('postContent', JSON.stringify(updatedContent));
+      
+      console.log('Conteúdo do post salvo:', updatedContent);
+      contentChanges = {};
+      
+      alert('Alterações salvas com sucesso!');
+    }
+
+    // Limpar cache
+    function clearCache() {
+      if (confirm('Tem certeza que deseja limpar todas as alterações salvas? Isso irá restaurar o conteúdo original.')) {
+        localStorage.removeItem('postContent');
+        location.reload();
+      }
+    }
+
+    // Logout
+    function logout() {
+      if (confirm('Tem certeza que deseja sair do modo administrador?')) {
+        localStorage.removeItem('adminLoggedIn');
+        localStorage.removeItem('adminEmail');
+        window.location.href = 'index.html';
+      }
+    }
+
+    // Carregar conteúdo baseado na URL
+    function loadPostFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const postId = urlParams.get('id');
+      
+      // Posts predefinidos
+      const posts = {
+        '1': {
+          post_title: 'Como organizar suas finanças para escalar seu negócio',
+          post_category: 'Notícia',
+          post_date: '15 Set 2025',
+          post_author: 'Rogério Contador',
+          post_image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop'
+        },
+        '2': {
+          post_title: 'Tributação no digital: o que muda em 2025',
+          post_category: 'Blog',
+          post_date: '10 Set 2025',
+          post_author: 'Rogério Contador',
+          post_image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1200&auto=format&fit=crop'
+        },
+        '3': {
+          post_title: 'MEI, Simples ou Lucro Presumido? Escolha certa para o seu caso',
+          post_category: 'Dica',
+          post_date: '02 Set 2025',
+          post_author: 'Rogério Contador',
+          post_image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop'
+        }
+      };
+      
+      if (postId && posts[postId]) {
+        const post = posts[postId];
+        
+        // Atualizar elementos da página
+        document.getElementById('postTitle').textContent = post.post_title;
+        document.getElementById('postCategory').textContent = post.post_category;
+        document.getElementById('postDate').textContent = post.post_date;
+        document.getElementById('postAuthor').textContent = post.post_author;
+        document.getElementById('postImage').src = post.post_image;
+        document.getElementById('pageTitle').textContent = post.post_title + ' - RBO Contabilidade';
+      }
+    }
+
+    // Inicializar quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+      loadPostFromURL();
+      loadSavedContent();
+      checkAdminMode();
+    });
+  </script>
+</body>
+</html>
